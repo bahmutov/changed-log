@@ -7,6 +7,16 @@ var packageJson = Promise.promisify(require('package-json'));
 var packageField = Promise.promisify(require('package-json').field);
 var GitHubApi = require('github');
 
+var repoSchema = {
+  user: check.unemptyString,
+  repo: check.unemptyString
+};
+
+var isRepoQuestion = R.partial(check.schema, repoSchema);
+function verifyRepoOptions(options) {
+  la(isRepoQuestion(options), 'missing repo info', options);
+}
+
 var github = new GitHubApi({
   // required
   version: '3.0.0',
@@ -57,12 +67,8 @@ function packageRepo() {
 
 
 function getTags(options) {
-  var repoSchema = {
-    user: check.unemptyString,
-    repo: check.unemptyString
-  };
   la(check.object(options), 'missing options', options);
-  la(check.schema(repoSchema, options), options);
+  verifyRepoOptions(options);
 
   var gTags = Promise.promisify(github.repos.getTags);
   return gTags({
@@ -79,6 +85,8 @@ function getTags(options) {
     });
   });
 }
+
+// getTags();
 
 function getFromToTags(question) {
   var tagSchema = {
@@ -102,6 +110,42 @@ function getFromToTags(question) {
     });
 }
 
-// getTags();
-getFromToTags(question)
-  .then(log);
+// getFromToTags(question)
+//  .then(log);
+
+// returns list of commits between two given tags
+// latest commit is first in the list
+function getCommitsBetween(options) {
+  verifyRepoOptions(options);
+  var schema = {
+    from: check.commitId,
+    to: check.commitId
+  };
+  la(check.schema(schema, options), 'invalid from and to commits', options);
+  var getCommits = Promise.promisify(github.repos.getCommits);
+  return getCommits({
+    user: options.user,
+    repo: options.repo,
+    sha: options.to
+  }).then(function (commits) {
+    console.log('found %d commits finishing with the latest commit %s',
+      commits.length, options.to);
+    return _.pluck(commits, 'sha');
+  }).then(function (ids) {
+    var fromIndex = _.findIndex(ids, _.matches(options.from));
+    debug('from commit %s is at index %d', options.from, fromIndex);
+    // we are not really interested in FROM commit, so start
+    // slice at index 1
+    // we ARE interested in TO commit, so make sure to grab
+    // the item at the fromIndex position
+    return _.slice(ids, 0, fromIndex);
+  });
+}
+
+getCommitsBetween({
+  user: 'bahmutov',
+  repo: 'next-update',
+  from: '627250039b89fba678f57f428ee9151c370d4dad',
+  to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
+}).then(log);
+// TODO for each found commit pull commit comments and parse
