@@ -9,23 +9,23 @@ var debug = require('debug')('tags');
 var reposApi = utils.github.repos;
 var gTags = Promise.promisify(reposApi.getTags);
 
+function nameAndSha(tags) {
+  if (check.array(tags)) {
+    return _.map(tags, nameAndSha);
+  }
+  return {
+    name: tags.name,
+    sha: tags.commit.sha
+  };
+}
+
 function getTags(options) {
   la(check.object(options), 'missing options', options);
   utils.verifyRepoOptions(options);
 
-  return gTags({
-    user: 'bahmutov',
-    repo: 'next-update'
-  }).then(function (tags) {
-    la(check.array(tags), 'expected tags to be an array', tags);
-    console.log('received %d tags', tags.length);
-    return _.map(tags, function (tag) {
-      return {
-        name: tag.name,
-        sha: tag.commit.sha
-      };
-    });
-  });
+  return gTags(options)
+    .tap(check.array)
+    .then(nameAndSha);
 }
 
 // getTags();
@@ -45,10 +45,10 @@ function getFromToTags(question) {
       var toTag = _.find(allTags, 'name', question.to);
       la(toTag, 'cannot to tag', question.to);
 
-      return _.extend(question, {
+      return {
         fromTag: fromTag,
         toTag: toTag
-      });
+      };
     });
 }
 
