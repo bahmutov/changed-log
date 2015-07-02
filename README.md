@@ -2,6 +2,9 @@
 
 > Returns all commit messages between 2 versions of an NPM module
 
+[![NPM][npm-icon] ][npm-url]
+[![Circle CI][circle-ci-icon] ][circle-ci-url]
+
 Install: `npm install -g changed-log`
 
 Use:
@@ -49,3 +52,8 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+
+[npm-icon]: https://nodei.co/npm/changed-log.png?downloads=true
+[npm-url]: https://npmjs.org/package/changed-log
+[circle-ci-icon]: https://circleci.com/gh/bahmutov/changed-log.svg?style=svg
+[circle-ci-url]: https://circleci.com/gh/bahmutov/changed-log
