@@ -60,8 +60,8 @@ function askGithubUsernameAndPassword() {
       la(check.unemptyString(answers.username), 'missing username');
       la(check.unemptyString(answers.password), 'missing password');
       resolve({
-        username: username,
-        password: password
+        username: answers.username,
+        password: answers.password
       });
     });
   });
@@ -70,6 +70,9 @@ function askGithubUsernameAndPassword() {
 function githubLogin() {
   return askGithubUsernameAndPassword()
     .then(function (info) {
+      log('trying to login to github %s', info.username);
+      la(check.unemptyString(info.password), 'empty password for', info.username);
+
       utils.github.authenticate({
         type: 'basic',
         username: info.username,
