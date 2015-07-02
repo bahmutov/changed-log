@@ -3,7 +3,7 @@ var check = require('check-more-types');
 
 var log = console.log.bind(console);
 var debug = require('debug')('main');
-
+var _ = require('lodash');
 var pkg = require('./package.json');
 
 var options = {
@@ -22,6 +22,21 @@ if (!isValidCliOptions(options)) {
   process.exit(-1);
 }
 
+function findCommitIds(repoInfo) {
+  var tagsToCommits = require('./src/get-commits-from-tags');
+  return tagsToCommits({
+    user: repoInfo.user,
+    repo: repoInfo.repo,
+    from: options.from,
+    to: options.to
+  }).tap(debug)
+    .then(function mergeCommitInfo(tagsInfo) {
+      return _.extend({}, options, tagsInfo);
+    });
+}
+
 var packageRepo = require('./src/package-repo');
 packageRepo(options.name)
-  .tap(debug);
+  .tap(debug)
+  .then(findCommitIds)
+  .tap(log);
