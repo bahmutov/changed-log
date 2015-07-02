@@ -12,7 +12,7 @@ Use:
 > What has changed for module 'chalk' between version 0.3.0 and 0.5.1?
 
     $ changed-log chalk 0.3.0 0.5.1
-    found 30 commits finishing with the latest commit 994758f01293f1fdcf63282e9917cb9f2cfbdaac
+    found 30 commits finishing with the latest commit 994758f
     Changelog for module chalk repo chalk/chalk from 0.3.0 to 0.5.1
     994758f: 0.5.1
     ...

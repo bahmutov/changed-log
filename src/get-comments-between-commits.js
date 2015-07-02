@@ -24,7 +24,7 @@ function getCommitsBetween(options) {
     sha: options.to
   }).then(function (commits) {
     console.log('found %d commits finishing with the latest commit %s',
-      commits.length, options.to);
+      commits.length, utils.shortenSha(options.to));
     return _.pluck(commits, 'sha');
   }).then(function (ids) {
     var fromIndex = _.findIndex(ids, _.matches(options.from));

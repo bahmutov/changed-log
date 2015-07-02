@@ -43,6 +43,11 @@ function parseGithubUrl(url) {
   };
 }
 
+function shortenSha(str) {
+  la(check.unemptyString(str), 'expected long commit sha string', str);
+  return str.substr(0, 7);
+}
+
 function trimVersion(str) {
   la(check.unemptyString(str), 'missig tag', str);
   var startsWithV = /^v\d+/;
@@ -69,5 +74,6 @@ module.exports = {
   verifyGithub: verifyGithub,
   parseGithubUrl: parseGithubUrl,
   trimVersion: trimVersion,
-  firstLine: firstLine
+  firstLine: firstLine,
+  shortenSha: shortenSha
 };
