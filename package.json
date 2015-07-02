@@ -4,7 +4,8 @@
   "description": "Returns all commit messages between 2 versions of an NPM module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -R spec src/**/*-spec.js",
+    "watch": "mocha -R spec --watch src/**/*-spec.js"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,9 @@
     "ramda": "0.15.1"
   },
   "devDependencies": {
+    "mocha": "2.2.5",
     "pre-git": "0.6.1"
   },
+  "pre-commit": "npm test",
   "post-commit": "npm version"
 }

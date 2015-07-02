@@ -12,11 +12,16 @@ function verifyRepoOptions(options) {
   la(isRepoQuestion(options), 'missing repo info', options);
 }
 
+function isGithubUrl(url) {
+  return check.unemptyString(url) &&
+    /github\.com/.test(url) &&
+    /\.git$/.test(url);
+}
+
 function verifyGithub(repo) {
   la(check.object(repo) &&
     repo.type === 'git' &&
-    check.unemptyString(repo.url) &&
-    /github\.com/.test(repo.url),
+    isGithubUrl(repo.url),
     'not a github repo', repo);
 }
 
@@ -28,9 +33,19 @@ var github = new GitHubApi({
   debug: false
 });
 
+function parseGithubUrl(url) {
+  la(isGithubUrl(url), 'not a github url', url);
+  var matches = /github\.com\/([a-zA-Z-]+?)\/([a-zA-Z-]+?)\.git$/.exec(url);
+  return {
+    user: matches[1],
+    repo: matches[2]
+  };
+}
+
 module.exports = {
   isRepoQuestion: isRepoQuestion,
   verifyRepoOptions: verifyRepoOptions,
   github: github,
-  verifyGithub: verifyGithub
+  verifyGithub: verifyGithub,
+  parseGithubUrl: parseGithubUrl
 };

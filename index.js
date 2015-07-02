@@ -32,7 +32,6 @@ function diffVersions() {
 }
 
 function packageRepo() {
-
   return packageField(question.name, 'repository')
     .tap(utils.verifyGithub)
     .then(R.prop('url'));
