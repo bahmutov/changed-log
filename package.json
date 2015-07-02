@@ -28,6 +28,7 @@
   "homepage": "https://github.com/bahmutov/changed-log",
   "dependencies": {
     "bluebird": "2.9.30",
+    "chalk": "1.1.0",
     "check-more-types": "1.8.2",
     "debug": "2.2.0",
     "github": "0.2.4",
