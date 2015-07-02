@@ -14,8 +14,7 @@ function verifyRepoOptions(options) {
 
 function isGithubUrl(url) {
   return check.unemptyString(url) &&
-    /github\.com/.test(url) &&
-    /\.git$/.test(url);
+    /github\.com/.test(url);
 }
 
 function verifyGithub(repo) {
@@ -35,11 +34,32 @@ var github = new GitHubApi({
 
 function parseGithubUrl(url) {
   la(isGithubUrl(url), 'not a github url', url);
-  var matches = /github\.com\/([a-zA-Z-]+?)\/([a-zA-Z-]+?)\.git$/.exec(url);
+  var matches = /github\.com\/([a-zA-Z-]+?)\/([a-zA-Z-]+?)(\.git)?$/.exec(url);
+  la(check.array(matches),
+    'could not extract user and repo name from github url', url);
   return {
     user: matches[1],
     repo: matches[2]
   };
+}
+
+function trimVersion(str) {
+  la(check.unemptyString(str), 'missig tag', str);
+  var startsWithV = /^v\d+/;
+  if (startsWithV.test(str)) {
+    return str.substr(1);
+  }
+  return str;
+}
+
+function firstLine(str) {
+  la(check.string(str), 'expected str', str);
+  str = str.trim();
+  var firstNewline = str.indexOf('\n');
+  if (firstNewline !== -1) {
+    return str.substr(0, firstNewline);
+  }
+  return str;
 }
 
 module.exports = {
@@ -47,5 +67,7 @@ module.exports = {
   verifyRepoOptions: verifyRepoOptions,
   github: github,
   verifyGithub: verifyGithub,
-  parseGithubUrl: parseGithubUrl
+  parseGithubUrl: parseGithubUrl,
+  trimVersion: trimVersion,
+  firstLine: firstLine
 };

@@ -1,6 +1,6 @@
 {
   "name": "changed-log",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Returns all commit messages between 2 versions of an NPM module",
   "main": "src/changed-log.js",
   "bin": {

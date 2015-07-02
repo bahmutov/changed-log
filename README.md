@@ -2,6 +2,14 @@
 
 > Returns all commit messages between 2 versions of an NPM module
 
+Install: `npm install -g changed-log`
+
+Use:
+
+> What has changed for module 'chalk' between version 0.3.0 and 0.5.1?
+
+    changed-log chalk 0.3.0 0.5.1
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015

@@ -19,13 +19,21 @@ function nameAndSha(tags) {
   };
 }
 
+function trimVersions(tags) {
+  return tags.map(function (tag) {
+    tag.name = utils.trimVersion(tag.name);
+    return tag;
+  });
+}
+
 function getTags(options) {
   la(check.object(options), 'missing options', options);
   utils.verifyRepoOptions(options);
 
   return gTags(options)
     .tap(check.array)
-    .then(nameAndSha);
+    .then(nameAndSha)
+    .then(trimVersions);
 }
 
 function getFromToTags(question) {
@@ -39,9 +47,9 @@ function getFromToTags(question) {
     .then(function (allTags) {
       la(check.array(allTags), 'missing tags', allTags);
       var fromTag = _.find(allTags, 'name', question.from);
-      la(fromTag, 'cannot find tag', question.from);
+      la(fromTag, 'cannot find tag', question.from, 'all tags', allTags);
       var toTag = _.find(allTags, 'name', question.to);
-      la(toTag, 'cannot to tag', question.to);
+      la(toTag, 'cannot to tag', question.to, 'all tags', allTags);
 
       return {
         fromTag: fromTag,

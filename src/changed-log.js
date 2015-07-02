@@ -41,8 +41,11 @@ function findCommentsBetweenTags(options) {
 
 var packageRepo = require('./package-repo');
 
-function changedLog(options) {
+function changedLog(options, reportOptions) {
   // TODO validate options
+  options = options || {};
+  reportOptions = reportOptions || {};
+
   return packageRepo(options.name)
     .tap(debug)
     .then(_.partial(findCommitIds, options))
@@ -52,7 +55,7 @@ function changedLog(options) {
     .tap(function (report) {
       la(check.object(report), 'missing report', report);
       la(check.fn(report.print), 'cannot print report', report);
-      report.print();
+      report.print(reportOptions);
     });
 }
 
