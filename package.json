@@ -1,0 +1,37 @@
+{
+  "name": "changed-log",
+  "version": "1.0.0",
+  "description": "Returns all commit messages between 2 versions of an NPM module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bahmutov/changed-log.git"
+  },
+  "keywords": [
+    "change",
+    "changelog",
+    "changes",
+    "version",
+    "release",
+    "module",
+    "package",
+    "npm"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/changed-log/issues"
+  },
+  "homepage": "https://github.com/bahmutov/changed-log",
+  "dependencies": {
+    "bluebird": "2.9.30",
+    "check-more-types": "1.8.2",
+    "debug": "2.2.0",
+    "lazy-ass": "0.5.8",
+    "package-json": "1.2.0",
+    "ramda": "0.15.1"
+  }
+}
