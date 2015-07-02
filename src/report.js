@@ -13,9 +13,11 @@ function Report(options) {
 }
 
 Report.prototype.print = function () {
-
+  // TODO validate options
   var report = this;
-  log('Changelog for repo', chalk.underline(report.options.user + '/' + report.options.repo));
+  log('Changelog for module', chalk.underline(report.options.name),
+    'repo', chalk.underline(report.options.user + '/' + report.options.repo),
+    'from', report.options.from, 'to', report.options.to);
 
   function shortenSha(str) {
     return str.substr(0, 7);

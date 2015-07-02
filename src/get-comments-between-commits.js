@@ -86,6 +86,7 @@ function getCommentsBetweenCommits(options) {
     .then(R.always(report));
 }
 
+// resolves with Report object
 module.exports = getCommentsBetweenCommits;
 
 if (!module.parent) {

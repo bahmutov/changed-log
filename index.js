@@ -22,21 +22,5 @@ if (!isValidCliOptions(options)) {
   process.exit(-1);
 }
 
-function findCommitIds(repoInfo) {
-  var tagsToCommits = require('./src/get-commits-from-tags');
-  return tagsToCommits({
-    user: repoInfo.user,
-    repo: repoInfo.repo,
-    from: options.from,
-    to: options.to
-  }).tap(debug)
-    .then(function mergeCommitInfo(tagsInfo) {
-      return _.extend({}, options, tagsInfo);
-    });
-}
-
-var packageRepo = require('./src/package-repo');
-packageRepo(options.name)
-  .tap(debug)
-  .then(findCommitIds)
-  .tap(log);
+var changedLog = require('./src/changed-log');
+changedLog(options);
