@@ -31,7 +31,7 @@ Report.prototype.print = function (opts) {
 
   report.ids.forEach(function (id, k) {
     var comment = report.comments[k] || '';
-    if (!options.details) {
+    if (!opts.details) {
       comment = utils.firstLine(comment);
     }
     log(chalk.bold(shortenSha(id)) + ': ' + comment);
