@@ -30,7 +30,9 @@
     "bluebird": "2.9.30",
     "check-more-types": "1.8.2",
     "debug": "2.2.0",
+    "github": "0.2.4",
     "lazy-ass": "0.5.8",
+    "lodash": "3.10.0",
     "package-json": "1.2.0",
     "ramda": "0.15.1"
   }
