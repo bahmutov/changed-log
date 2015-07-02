@@ -33,6 +33,5 @@ if (!isValidCliOptions(options)) {
   process.exit(-1);
 }
 
-
 var changedLog = require('../src/changed-log');
 changedLog(options);

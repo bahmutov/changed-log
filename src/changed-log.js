@@ -1,9 +1,11 @@
 require('lazy-ass');
 var check = require('check-more-types');
+var packageRepo = require('./package-repo');
 
 var log = console.log.bind(console);
 var debug = require('debug')('main');
 var _ = require('lodash');
+var utils = require('./utils');
 
 function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
@@ -39,9 +41,45 @@ function findCommentsBetweenTags(options) {
   });
 }
 
-var packageRepo = require('./package-repo');
+function askGithubUsernameAndPassword() {
+  var inquirer = require('inquirer');
 
-function changedLog(options, reportOptions) {
+  var username = {
+    type: 'input',
+    name: 'username',
+    message: 'github username'
+  };
+  var password = {
+    type: 'password',
+    name: 'password',
+    message: 'github password (not stored locally)'
+  };
+
+  return new Promise(function (resolve, reject) {
+    inquirer.prompt([username, password], function (answers) {
+      la(check.unemptyString(answers.username), 'missing username');
+      la(check.unemptyString(answers.password), 'missing password');
+      resolve({
+        username: username,
+        password: password
+      });
+    });
+  });
+}
+
+function githubLogin() {
+  return askGithubUsernameAndPassword()
+    .then(function (info) {
+      utils.github.authenticate({
+        type: 'basic',
+        username: info.username,
+        password: info.password
+      });
+    });
+}
+
+
+function changedLogReport(options, reportOptions) {
   // TODO validate options
   options = options || {};
   reportOptions = reportOptions || {};
@@ -57,6 +95,20 @@ function changedLog(options, reportOptions) {
       la(check.fn(report.print), 'cannot print report', report);
       report.print(reportOptions);
     });
+}
+
+function changedLog(options, reportOptions) {
+  // TODO validate options
+  options = options || {};
+  reportOptions = reportOptions || {};
+
+  if (options.auth) {
+    log('Please login to github to increase the API rate limit');
+    return githubLogin()
+      .then(_.partial(changedLogReport, options, reportOptions));
+  }
+
+  return changedLogReport(options, reportOptions);
 }
 
 module.exports = changedLog;
