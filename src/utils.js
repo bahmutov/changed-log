@@ -12,6 +12,14 @@ function verifyRepoOptions(options) {
   la(isRepoQuestion(options), 'missing repo info', options);
 }
 
+function verifyGithub(repo) {
+  la(check.object(repo) &&
+    repo.type === 'git' &&
+    check.unemptyString(repo.url) &&
+    /github\.com/.test(repo.url),
+    'not a github repo', repo);
+}
+
 var GitHubApi = require('github');
 var github = new GitHubApi({
   // required
@@ -23,5 +31,6 @@ var github = new GitHubApi({
 module.exports = {
   isRepoQuestion: isRepoQuestion,
   verifyRepoOptions: verifyRepoOptions,
-  github: github
+  github: github,
+  verifyGithub: verifyGithub
 };
