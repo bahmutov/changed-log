@@ -87,3 +87,16 @@ function getCommentsBetweenCommits(options) {
 }
 
 module.exports = getCommentsBetweenCommits;
+
+if (!module.parent) {
+
+  getCommentsBetween({
+    user: 'bahmutov',
+    repo: 'next-update',
+    from: '627250039b89fba678f57f428ee9151c370d4dad',
+    to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
+  }).tap(function (report) {
+      la(check.object(report), 'did not get a report', report);
+      report.print();
+    });
+}
