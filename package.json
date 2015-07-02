@@ -1,6 +1,6 @@
 {
   "name": "changed-log",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Returns all commit messages between 2 versions of an NPM module",
   "main": "index.js",
   "scripts": {
@@ -35,5 +35,9 @@
     "lodash": "3.10.0",
     "package-json": "1.2.0",
     "ramda": "0.15.1"
-  }
+  },
+  "devDependencies": {
+    "pre-git": "0.6.1"
+  },
+  "post-commit": "npm version"
 }
