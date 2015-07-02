@@ -5,7 +5,7 @@ var R = require('ramda');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var debug = require('debug')('tags');
-
+var log = console.log.bind(console);
 var reposApi = utils.github.repos;
 var gTags = Promise.promisify(reposApi.getTags);
 
@@ -27,8 +27,6 @@ function getTags(options) {
     .tap(check.array)
     .then(nameAndSha);
 }
-
-// getTags();
 
 function getFromToTags(question) {
   var tagSchema = {
@@ -53,3 +51,17 @@ function getFromToTags(question) {
 }
 
 module.exports = getFromToTags;
+
+if (!module.parent) {
+  var question = {
+    user: 'bahmutov',
+    repo: 'next-update',
+    from: '0.8.0',
+    to: '0.8.2' // or 'latest'
+  };
+
+  log('Getting commit SHA for the given tags');
+  log(question);
+  getFromToTags(question)
+    .then(log);
+}

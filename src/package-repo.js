@@ -21,7 +21,7 @@ module.exports = packageRepo;
 
 if (!module.parent) {
   var name = 'next-update';
-  console.log('getting repo info for package %s', name);
+  log('getting repo info for package %s', name);
   packageRepo(name)
     .then(log);
 }

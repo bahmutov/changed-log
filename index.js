@@ -10,20 +10,6 @@ var utils = require('./src/utils');
 var log = console.log.bind(console);
 var debug = require('debug')('load');
 
-var question = {
-  user: 'bahmutov',
-  name: 'next-update',
-  repo: 'next-update',
-  from: '0.8.0',
-  to: '0.8.2' // or 'latest'
-};
-
-// packageRepo()
-//  .then(console.log.bind(console));
-var getFromToTags = require('./src/get-commits-from-tags');
-getFromToTags(question)
-  .then(log);
-
 function reportCommentsBetweenCommits() {
   var getCommentsBetween = require('./src/get-comments-between-commits');
 
