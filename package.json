@@ -1,8 +1,11 @@
 {
   "name": "changed-log",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Returns all commit messages between 2 versions of an NPM module",
-  "main": "index.js",
+  "main": "src/changed-log.js",
+  "bin": {
+    "changed-log": "bin/changed-log.js"
+  },
   "scripts": {
     "test": "mocha -R spec src/**/*-spec.js",
     "watch": "mocha -R spec --watch src/**/*-spec.js",

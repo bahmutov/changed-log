@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 require('lazy-ass');
 var check = require('check-more-types');
 
@@ -22,5 +24,5 @@ if (!isValidCliOptions(options)) {
   process.exit(-1);
 }
 
-var changedLog = require('./src/changed-log');
+var changedLog = require('../src/changed-log');
 changedLog(options);
