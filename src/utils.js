@@ -34,7 +34,7 @@ var github = new GitHubApi({
 
 function parseGithubUrl(url) {
   la(isGithubUrl(url), 'not a github url', url);
-  var matches = /github\.com\/([a-zA-Z-]+?)\/([a-zA-Z-]+?)(\.git)?$/.exec(url);
+  var matches = /github\.com[\/:]([a-zA-Z-]+?)\/([a-zA-Z-]+?)(\.git)?$/.exec(url);
   la(check.array(matches),
     'could not extract user and repo name from github url', url);
   return {

@@ -57,5 +57,12 @@ describe('utils', function () {
       la(info.repo === 'chalk', 'wrong repo', info);
     });
 
+    it('parses git@ urls', function () {
+      var url = 'git@github.com:kensho/ng-describe.git';
+      var info = parse(url);
+      la(info.user === 'kensho', 'wrong user', info);
+      la(info.repo === 'ng-describe', 'wrong repo', info);
+    });
+
   });
 });
