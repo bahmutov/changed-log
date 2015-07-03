@@ -36,6 +36,46 @@ describe('utils', function () {
     });
   });
 
+  describe('is github user / repo pair', function () {
+    var isGithubName = utils.isGithubName;
+
+    it('rejects simple word', function () {
+      la(!isGithubName('foo'));
+    });
+
+    it('rejects multiple words', function () {
+      la(!isGithubName('foo/bar/baz'));
+    });
+
+    it('detects user / repo', function () {
+      la(isGithubName('foo/bar'));
+    });
+
+    it('detects user / repo with dashes', function () {
+      la(isGithubName('foo-bar/baz'));
+    });
+
+    it('detects user / repo with dashes and digits', function () {
+      la(isGithubName('foo-bar/baz-21'));
+    });
+  });
+
+  describe('parsing github user/repo pair', function () {
+    var parseGithubName = utils.parseGithubName;
+
+    it('detects user / repo', function () {
+      var result = parseGithubName('foo/bar');
+      la(result.user === 'foo', 'username', result);
+      la(result.repo === 'bar', 'reponame', result);
+    });
+
+    it('detects user / repo with dashes', function () {
+      var result = parseGithubName('foo-21/bar-baz');
+      la(result.user === 'foo-21', 'username', result);
+      la(result.repo === 'bar-baz', 'reponame', result);
+    });
+  });
+
   describe('parse github url', function () {
     var parse = utils.parseGithubUrl;
 

@@ -20,6 +20,9 @@ Use:
     fa9bd4e: bump ansi-styles
 
 The information is fetched from the github repo corresponding to the NPM package.
+Alternatively you can provide github username / repo instead of NPM package name
+
+    $ changed-log kensho/ng-describe 0.3.0 0.5.0
 
 ### Small print
 

@@ -11,6 +11,11 @@ var debug = require('debug')('load');
 // resolves with the github url for the given NPM package name
 function packageRepo(name) {
   la(check.unemptyString(name), 'missing package name', name);
+
+  if (utils.isGithubName(name)) {
+    return Promise.resolve(utils.parseGithubName(name));
+  }
+
   return packageField(name, 'repository')
     .tap(utils.verifyGithub)
     .then(R.prop('url'))
