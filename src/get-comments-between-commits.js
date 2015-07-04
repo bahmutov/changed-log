@@ -20,12 +20,26 @@ function getCommitsFrom(user, repo, latest, stop, previousCommits) {
     repo: repo,
     sha: latest
   }).then(function (commits) {
-    var allCommits = previousCommits.concat(commits);
+    debug('got %d new commits from %s to %s',
+      commits.length,
+      utils.shortenSha(R.head(commits).sha),
+      utils.shortenSha(R.last(commits).sha)
+    );
+
+    var allCommits = previousCommits.length ? previousCommits.concat(commits.slice(1)) : commits;
     var fromIndex = _.findIndex(allCommits, 'sha', stop);
     if (fromIndex === -1) {
+      if (commits.length === 1) {
+        debug('fetched single commit %s, stopping', utils.shortenSha(commits[0].sha));
+        return allCommits;
+      }
+
       var last = R.last(allCommits).sha;
       console.log('could not find the stop commit, fetching more commits starting with %s', last);
-      return getCommitsFrom(user, repo, last, stop, allCommits);
+      // using delay to debug
+      return Promise.delay(1).then(function () {
+        return getCommitsFrom(user, repo, last, stop, allCommits);
+      });
     } else {
       return allCommits;
     }
@@ -139,8 +153,8 @@ if (!module.parent) {
     var options = {
       user: 'chalk',
       repo: 'chalk',
-      from: 'e9bb6e6000b1c5d4508afabfdc85dd70f582f515',
-      to: '0a33a270b1e00ae4dea31b8ca368056d6823a148'
+      from: 'e9bb6e6000b1c5d4508afabfdc85dd70f582f515', // older
+      to: '0a33a270b1e00ae4dea31b8ca368056d6823a148' // latest
     };
     getCommentsBetweenCommits(options)
       .tap(function (report) {
