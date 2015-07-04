@@ -7,6 +7,30 @@ var Promise = require('bluebird');
 var debug = require('debug')('between');
 
 var reposApi = utils.github.repos;
+var getCommits = Promise.promisify(reposApi.getCommits);
+
+function getCommitsFrom(user, repo, latest, stop, previousCommits) {
+  previousCommits = previousCommits || [];
+  debug('commits %s/%s latest %s stop %s, previous number %d',
+    user, repo, utils.shortenSha(latest), utils.shortenSha(stop),
+    previousCommits.length);
+
+  return getCommits({
+    user: user,
+    repo: repo,
+    sha: latest
+  }).then(function (commits) {
+    var allCommits = previousCommits.concat(commits);
+    var fromIndex = _.findIndex(allCommits, 'sha', stop);
+    if (fromIndex === -1) {
+      var last = R.last(allCommits).sha;
+      console.log('could not find the stop commit, fetching more commits starting with %s', last);
+      return getCommitsFrom(user, repo, last, stop, allCommits);
+    } else {
+      return allCommits;
+    }
+  });
+}
 
 // returns list of commits between two given tags
 // latest commit is first in the list
@@ -17,24 +41,28 @@ function getCommitsBetween(options) {
     to: check.commitId
   };
   la(check.schema(schema, options), 'invalid from and to commits', options);
-  var getCommits = Promise.promisify(reposApi.getCommits);
-  return getCommits({
-    user: options.user,
-    repo: options.repo,
-    sha: options.to
-  }).then(function (commits) {
-    console.log('found %d commits finishing with the latest commit %s',
-      commits.length, utils.shortenSha(options.to));
-    return _.pluck(commits, 'sha');
-  }).then(function (ids) {
-    var fromIndex = _.findIndex(ids, _.matches(options.from));
-    debug('from commit %s is at index %d', options.from, fromIndex);
-    // we are not really interested in FROM commit, so start
-    // slice at index 1
-    // we ARE interested in TO commit, so make sure to grab
-    // the item at the fromIndex position
-    return _.slice(ids, 0, fromIndex);
-  });
+
+  return getCommitsFrom(options.user, options.repo, options.to, options.from)
+    .then(function (commits) {
+      la(check.array(commits), 'could not get list of commits', options);
+      console.log('found %d commits finishing with the latest commit %s',
+        commits.length, utils.shortenSha(options.to));
+
+      return R.map(function (commit) {
+        return {
+          sha: commit.sha,
+          message: commit.commit.message
+        }
+      }, commits);
+    }).then(function (commits) {
+      var fromIndex = _.findIndex(commits, 'sha', options.from);
+      debug('from commit %s is at index %d', options.from, fromIndex);
+      // we are not really interested in FROM commit, so start
+      // slice at index 1
+      // we ARE interested in TO commit, so make sure to grab
+      // the item at the fromIndex position
+      return _.slice(commits, 0, fromIndex);
+    });
 }
 
 function getCommitComment(options, id) {
@@ -76,13 +104,15 @@ function getCommentsBetweenCommits(options) {
   var report = new Report(options);
 
   return getCommitsBetween(options)
-    .tap(function (ids) {
-      report.ids = ids;
+    .tap(function (commits) {
+      report.ids = _.pluck(commits, 'sha');
+      report.comments = _.pluck(commits, 'message');
     })
+    /*
     .then(R.partial(getComments, options))
     .tap(function (comments) {
       report.comments = comments;
-    })
+    })*/
     .then(R.always(report));
 }
 
@@ -91,13 +121,33 @@ module.exports = getCommentsBetweenCommits;
 
 if (!module.parent) {
 
-  getCommentsBetween({
-    user: 'bahmutov',
-    repo: 'next-update',
-    from: '627250039b89fba678f57f428ee9151c370d4dad',
-    to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
-  }).tap(function (report) {
-      la(check.object(report), 'did not get a report', report);
-      report.print();
-    });
+  function smallNumberOfCommitsExample() {
+    var options = {
+      user: 'bahmutov',
+      repo: 'next-update',
+      from: '627250039b89fba678f57f428ee9151c370d4dad',
+      to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
+    };
+    getCommentsBetweenCommits(options)
+      .tap(function (report) {
+        la(check.object(report), 'did not get a report', report);
+        report.print();
+      });
+  }
+
+  function largeNumberOfCommitsExample() {
+    var options = {
+      user: 'chalk',
+      repo: 'chalk',
+      from: 'e9bb6e6000b1c5d4508afabfdc85dd70f582f515',
+      to: '0a33a270b1e00ae4dea31b8ca368056d6823a148'
+    };
+    getCommentsBetweenCommits(options)
+      .tap(function (report) {
+        la(check.object(report), 'did not get a report', report);
+        report.print();
+      });
+  }
+
+  largeNumberOfCommitsExample();
 }
