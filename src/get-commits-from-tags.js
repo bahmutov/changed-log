@@ -53,7 +53,8 @@ function getFromToTags(question) {
 
       return {
         fromTag: fromTag,
-        toTag: toTag
+        toTag: toTag,
+        allTags: allTags
       };
     });
 }

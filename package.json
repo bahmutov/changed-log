@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha -R spec src/**/*-spec.js",
     "watch": "mocha -R spec --watch src/**/*-spec.js",
-    "example": "DEBUG=main node index.js next-update 0.8.0 0.8.3"
+    "example": "DEBUG=main node bin/changed-log.js next-update 0.8.0 0.8.3"
   },
   "repository": {
     "type": "git",

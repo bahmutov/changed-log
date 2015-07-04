@@ -87,11 +87,20 @@ function changedLogReport(options, reportOptions) {
   options = options || {};
   reportOptions = reportOptions || {};
 
+  var allTags;
+
   return packageRepo(options.name)
     .tap(debug)
     .then(_.partial(findCommitIds, options))
-    .tap(debug)
+    .tap(function (result) {
+      la(check.array(result.allTags), 'expected all tags in', result);
+      allTags = result.allTags;
+    })
     .then(findCommentsBetweenTags)
+    .then(function mergeCommitsAndTags(report) {
+      report.allTags = allTags;
+      return report;
+    })
     .tap(debug)
     .tap(function (report) {
       la(check.object(report), 'missing report', report);

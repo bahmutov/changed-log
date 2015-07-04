@@ -37,3 +37,60 @@ Report.prototype.print = function (opts) {
 }
 
 module.exports = Report;
+
+if (!module.parent) {
+  (function sampleReport() {
+    var report = new Report({
+      user: 'bahmutov',
+      repo: 'next-update',
+      name: 'next-update',
+      from: '0.8.0',
+      to: '0.8.3'
+    });
+    report.ids = [
+      '89d437c4fe1178f120511ef43d6f6440956ba559',
+      '2845b1bd6a8d32c38666ae98e40a16288711d56e',
+      '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6',
+      'a4eb79977600fc5d001617449a1874168b38d6c3'
+    ];
+    report.comments = [
+      'Printing allowed type, fixes #59',
+      'filtering modules by type',
+      'Added CLI option --type to only check modules like prod,dev or peer. fixes #56',
+      'bump'
+    ];
+    report.allTags = [
+      { name: '0.0.12', sha: 'a343f9062999ae11418b2e1ee86d5f1776873a50' },
+      { name: '0.0.11', sha: '8b3141eeec82ab1c9bb1d0afd2814ab90736f295' },
+      { name: '0.0.10', sha: '839242c49ee1a4ede708937e8674f82c289a6860' },
+      { name: '0.0.9', sha: '53056481cca85bb94bc8e0c242d2ed8990062ed5' },
+      { name: '0.0.8', sha: 'a2cdf4406d0b5f412f4f68149671888c148d2dd2' },
+      { name: '0.0.7', sha: 'd87671041bb1010f842b7defc931210416b82ac2' },
+      { name: '0.0.6', sha: 'fede159c507d160ba548593097fa32cc2320f327' },
+      { name: '0.0.5', sha: '37d7d76ec3bcef6562ff7083c6c052d98f1435e3' },
+      { name: '0.0.4', sha: 'ebbd287cb3fb611430d8f2e6fcc299361d0ede5f' },
+      { name: '0.0.3', sha: '2c21af22ef1deda357834875504fdb3dff9245e2' },
+      { name: 'delete', sha: 'd5b122c1194703e8cea06630e7a008dd26b1c122' },
+      { name: '0.8.3', sha: '89d437c4fe1178f120511ef43d6f6440956ba559' },
+      { name: '0.8.2', sha: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6' },
+      { name: '0.8.1', sha: 'a4eb79977600fc5d001617449a1874168b38d6c3' },
+      { name: '0.8.0', sha: '627250039b89fba678f57f428ee9151c370d4dad' },
+      { name: '0.7.8', sha: 'be0a3e47ec56ec71feeae0b67437449d5b4481e0' },
+      { name: '0.7.7', sha: '43deb0f32a679f90d8b976555c99761e3dfea636' },
+      { name: '0.7.6', sha: 'a9086c59481b1e8ed643c4a1bd4caef63bce8908' },
+      { name: '0.7.5', sha: '8cb319afeb76288d1648ff0c09a43495bd80d401' },
+      { name: '0.7.4', sha: '40a0c115e9cd963d77b12a54dd576d15657e8f41' },
+      { name: '0.7.3', sha: 'fa4021a49f2a0810f3ee581f61cde5c18b3a1b64' },
+      { name: '0.7.2', sha: '9c2e697131d8e132b99b1f6364ecfe115c186a04' },
+      { name: '0.7.1', sha: '9253c0ee8b4bd37c528cafdff6be1c3696cd4fff' },
+      { name: '0.7.0', sha: '8f397568ad763803941c4d9d4587ea1354fdd6e4' },
+      { name: '0.6.0', sha: 'cd5fccfeb0baf9b490736022ff69fac743be3b4e' },
+      { name: '0.5.4', sha: '7dd8048e69fe33d2cdbbc1b214dd907b5cb52f19' },
+      { name: '0.5.3', sha: 'f19883a9a29d32649c9b6da7ed2ecfcfcdf5cbfc' },
+      { name: '0.5.2', sha: 'c0bdb2eefac5cc30ac69c744231d4c95c6f15f4b' },
+      { name: '0.5.1', sha: 'd29ebadbd38be26917a79f251f77f386dae4de7a' },
+      { name: '0.5.0', sha: '82747f3eff789b5ea8fade040735b2c11b116eb8' }
+    ];
+    report.print();
+  }());
+}
