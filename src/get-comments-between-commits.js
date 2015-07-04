@@ -59,7 +59,7 @@ function getCommitsBetween(options) {
   return getCommitsFrom(options.user, options.repo, options.to, options.from)
     .then(function (commits) {
       la(check.array(commits), 'could not get list of commits', options);
-      console.log('found %d commits finishing with the latest commit %s',
+      debug('found %d commits finishing with the latest commit %s',
         commits.length, utils.shortenSha(options.to));
 
       return R.map(function (commit) {
