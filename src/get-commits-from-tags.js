@@ -62,15 +62,35 @@ function getFromToTags(question) {
 module.exports = getFromToTags;
 
 if (!module.parent) {
-  var question = {
-    user: 'bahmutov',
-    repo: 'next-update',
-    from: '0.8.0',
-    to: '0.8.2' // or 'latest'
-  };
 
-  log('Getting commit SHA for the given tags');
-  log(question);
-  getFromToTags(question)
-    .then(log);
+  function nextUpdateExample() {
+    var question = {
+      user: 'bahmutov',
+      repo: 'next-update',
+      from: '0.8.0',
+      to: '0.8.2' // or 'latest?'
+    };
+
+    log('Getting commit SHA for the given tags');
+    log(question);
+    getFromToTags(question)
+      .then(log);
+  }
+
+  function chalkExample() {
+    var question = {
+      user: 'chalk',
+      repo: 'chalk',
+      from: '0.5.1',
+      to: '0.3.0'
+    };
+
+    log('Getting commit SHA for the given tags');
+    log('%s / %s from %s to %s',
+      question.user, question.repo, question.from, question.to);
+    getFromToTags(question)
+      .then(log);
+  }
+
+  chalkExample();
 }

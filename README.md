@@ -18,10 +18,19 @@ Use:
     0.5.1
       994758f: 0.5.1
       ca250ab: Merge pull request #33 from seanmonstar/_styles
-      ...
+      7ef6f4c: dont use slice on arguments
+      4291833: return a new function for each getter
+
     0.5.0
-      cf7eb2d: various tweaks
-      fa9bd4e: bump ansi-styles
+      3073fa3: 0.5.0
+      af17529: use rawgithub to workaround npm website bug with relative image paths
+      3ab833d: bench - increase iterations for more reliable results
+      ...
+
+    0.4.0
+      0a33a27: 0.4.0
+      ...
+      15f928f: Update readme
 
 The information is fetched from the github repo corresponding to the NPM package.
 Alternatively you can provide github username / repo instead of NPM package name

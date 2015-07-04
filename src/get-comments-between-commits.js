@@ -153,8 +153,8 @@ if (!module.parent) {
     var options = {
       user: 'chalk',
       repo: 'chalk',
-      from: 'e9bb6e6000b1c5d4508afabfdc85dd70f582f515', // older
-      to: '0a33a270b1e00ae4dea31b8ca368056d6823a148' // latest
+      from: 'b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb', // older (0.3.0)
+      to: '994758f01293f1fdcf63282e9917cb9f2cfbdaac' // latest (tag 0.5.1)
     };
     getCommentsBetweenCommits(options)
       .tap(function (report) {
