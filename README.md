@@ -14,10 +14,14 @@ Use:
     $ changed-log chalk 0.3.0 0.5.1
     found 30 commits finishing with the latest commit 994758f
     Changelog for module chalk repo chalk/chalk from 0.3.0 to 0.5.1
-    994758f: 0.5.1
-    ...
-    cf7eb2d: various tweaks
-    fa9bd4e: bump ansi-styles
+
+    0.5.1
+      994758f: 0.5.1
+      ca250ab: Merge pull request #33 from seanmonstar/_styles
+      ...
+    0.5.0
+      cf7eb2d: various tweaks
+      fa9bd4e: bump ansi-styles
 
 The information is fetched from the github repo corresponding to the NPM package.
 Alternatively you can provide github username / repo instead of NPM package name
