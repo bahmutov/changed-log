@@ -6,6 +6,7 @@ var Promise = require('bluebird');
 var log = console.log.bind(console);
 var reposApi = utils.github.repos;
 var gTags = Promise.promisify(reposApi.getTags);
+var debug = require('debug')('tags');
 
 function nameAndSha(tags) {
   if (check.array(tags)) {
@@ -44,10 +45,29 @@ function getFromToTags(question) {
   return getTags(_.pick(question, 'user', 'repo'))
     .then(function (allTags) {
       la(check.array(allTags), 'missing tags', allTags);
-      var fromTag = _.find(allTags, 'name', question.from);
-      la(fromTag, 'cannot find tag', question.from, 'all tags', allTags);
-      var toTag = _.find(allTags, 'name', question.to);
-      la(toTag, 'cannot to tag', question.to, 'all tags', allTags);
+      var fromTagIndex = _.findIndex(allTags, 'name', question.from);
+      la(fromTagIndex !== -1, 'cannot find tag', question.from, 'all tags', allTags);
+
+      var toTagIndex = _.findIndex(allTags, 'name', question.to);
+      la(toTagIndex !== -1, 'cannot to tag', question.to, 'all tags', allTags);
+
+      debug('from tag %s index %d to tag %s index %d',
+        question.from, fromTagIndex,
+        question.to, toTagIndex);
+
+      if (fromTagIndex < toTagIndex) {
+        debug('flipping the tag order');
+        var tmp = fromTagIndex;
+        fromTagIndex = toTagIndex;
+        toTagIndex = tmp;
+
+        tmp = question.from;
+        question.from = question.to;
+        question.to = tmp;
+      }
+
+      var fromTag = allTags[fromTagIndex];
+      var toTag = allTags[toTagIndex];
 
       return {
         fromTag: fromTag,
@@ -78,6 +98,20 @@ if (!module.parent) {
         .then(log);
     }
 
+    function nextUpdateReverseTagOrderExample() {
+      var question = {
+        user: 'bahmutov',
+        repo: 'next-update',
+        from: '0.8.2',
+        to: '0.8.0'
+      };
+
+      log('Getting commit SHA for the given tags');
+      log(question);
+      getFromToTags(question)
+        .then(log);
+    }
+
     function chalkExample() {
       var question = {
         user: 'chalk',
@@ -93,6 +127,7 @@ if (!module.parent) {
         .then(log);
     }
 
-    chalkExample();
+    // chalkExample();
+    nextUpdateReverseTagOrderExample();
   }());
 }
