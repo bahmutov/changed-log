@@ -30,6 +30,7 @@ if (!isValidCliOptions(options)) {
   log('%s@%s <package name> <from version> <to version> [options]',
     pkg.name, pkg.version);
   log('options:\n  --auth  - login with github credentials for increased rate limit');
+  /* eslint no-process-exit:0 */
   process.exit(-1);
 }
 

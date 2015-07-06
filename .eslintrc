@@ -1,0 +1,36 @@
+env:
+    node: true
+
+rules:
+    quotes: [2, 'single']
+    indent: [2, 2]
+    brace-style: [2, "1tbs"]
+    comma-style: [2, "last"]
+    default-case: 2
+    func-style: [2, "declaration"]
+    guard-for-in: 2
+    no-floating-decimal: 2
+    no-nested-ternary: 2
+    no-undefined: 2
+    radix: 2
+    space-after-function-name: [2, "never"]
+    space-after-keywords: [2, "always"]
+    space-before-blocks: 2
+    spaced-line-comment: [2, "always", { exceptions: ["-"]}]
+    strict: 0
+    valid-jsdoc: [2, { prefer: { "return": "returns"}}]
+    wrap-iife: 2
+    no-console: 1
+    no-irregular-whitespace: 2
+    curly: 2
+    no-multi-spaces: 2
+    no-throw-literal: 2
+    brace-style: 2
+    no-multiple-empty-lines: 2
+    space-after-keywords: 2
+    space-before-blocks: 2
+    space-in-brackets: 0
+    space-in-parens: 2
+globals:
+    la: true
+    check: true

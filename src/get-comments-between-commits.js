@@ -66,7 +66,7 @@ function getCommitsBetween(options) {
         return {
           sha: commit.sha,
           message: commit.commit.message
-        }
+        };
       }, commits);
     }).then(function (commits) {
       var fromIndex = _.findIndex(commits, 'sha', options.from);
@@ -77,32 +77,6 @@ function getCommitsBetween(options) {
       // the item at the fromIndex position
       return _.slice(commits, 0, fromIndex);
     });
-}
-
-function getCommitComment(options, id) {
-  la(check.commitId(id), 'missing commit id', arguments);
-  var get = Promise.promisify(reposApi.getCommit);
-  debug('loading commit for %s/%s sha %s', options.user, options.repo, id);
-
-  return get({
-    user: options.user,
-    repo: options.repo,
-    sha: id
-  }).then(R.prop('commit'))
-    .then(R.prop('message'));
-}
-
-function getComments(options, ids) {
-  utils.verifyRepoOptions(options);
-
-  ids = check.array(ids) ? ids : [ids];
-  la(check.arrayOf(check.commitId, ids), 'expected list of commit ids', ids);
-
-  var getComment = R.partial(getCommitComment, options);
-
-  return Promise.all(
-    ids.map(getComment)
-  , { concurrency: 2 });
 }
 
 var Report = require('./report');
@@ -122,11 +96,6 @@ function getCommentsBetweenCommits(options) {
       report.ids = _.pluck(commits, 'sha');
       report.comments = _.pluck(commits, 'message');
     })
-    /*
-    .then(R.partial(getComments, options))
-    .tap(function (comments) {
-      report.comments = comments;
-    })*/
     .then(R.always(report));
 }
 
@@ -135,33 +104,36 @@ module.exports = getCommentsBetweenCommits;
 
 if (!module.parent) {
 
-  function smallNumberOfCommitsExample() {
-    var options = {
-      user: 'bahmutov',
-      repo: 'next-update',
-      from: '627250039b89fba678f57f428ee9151c370d4dad',
-      to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
-    };
-    getCommentsBetweenCommits(options)
-      .tap(function (report) {
-        la(check.object(report), 'did not get a report', report);
-        report.print();
-      });
-  }
+  (function examples() {
+    /* eslint no-unused-vars:0 */
+    function smallNumberOfCommitsExample() {
+      var options = {
+        user: 'bahmutov',
+        repo: 'next-update',
+        from: '627250039b89fba678f57f428ee9151c370d4dad',
+        to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
+      };
+      getCommentsBetweenCommits(options)
+        .tap(function (report) {
+          la(check.object(report), 'did not get a report', report);
+          report.print();
+        });
+    }
 
-  function largeNumberOfCommitsExample() {
-    var options = {
-      user: 'chalk',
-      repo: 'chalk',
-      from: 'b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb', // older (0.3.0)
-      to: '994758f01293f1fdcf63282e9917cb9f2cfbdaac' // latest (tag 0.5.1)
-    };
-    getCommentsBetweenCommits(options)
-      .tap(function (report) {
-        la(check.object(report), 'did not get a report', report);
-        report.print();
-      });
-  }
+    function largeNumberOfCommitsExample() {
+      var options = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: 'b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb', // older (0.3.0)
+        to: '994758f01293f1fdcf63282e9917cb9f2cfbdaac' // latest (tag 0.5.1)
+      };
+      getCommentsBetweenCommits(options)
+        .tap(function (report) {
+          la(check.object(report), 'did not get a report', report);
+          report.print();
+        });
+    }
 
-  largeNumberOfCommitsExample();
+    largeNumberOfCommitsExample();
+  }());
 }

@@ -6,6 +6,7 @@ var log = console.log.bind(console);
 var debug = require('debug')('main');
 var _ = require('lodash');
 var utils = require('./utils');
+var Promise = require('bluebird');
 
 function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
@@ -55,7 +56,7 @@ function askGithubUsernameAndPassword() {
     message: 'github password (not stored locally)'
   };
 
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
     inquirer.prompt([username, password], function (answers) {
       la(check.unemptyString(answers.username), 'missing username');
       la(check.unemptyString(answers.password), 'missing password');

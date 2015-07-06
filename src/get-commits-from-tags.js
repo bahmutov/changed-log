@@ -1,10 +1,8 @@
 require('lazy-ass');
 var check = require('check-more-types');
 var utils = require('./utils');
-var R = require('ramda');
 var _ = require('lodash');
 var Promise = require('bluebird');
-var debug = require('debug')('tags');
 var log = console.log.bind(console);
 var reposApi = utils.github.repos;
 var gTags = Promise.promisify(reposApi.getTags);
@@ -63,34 +61,38 @@ module.exports = getFromToTags;
 
 if (!module.parent) {
 
-  function nextUpdateExample() {
-    var question = {
-      user: 'bahmutov',
-      repo: 'next-update',
-      from: '0.8.0',
-      to: '0.8.2' // or 'latest?'
-    };
+  (function examples() {
 
-    log('Getting commit SHA for the given tags');
-    log(question);
-    getFromToTags(question)
-      .then(log);
-  }
+    /* eslint no-unused-vars:0 */
+    function nextUpdateExample() {
+      var question = {
+        user: 'bahmutov',
+        repo: 'next-update',
+        from: '0.8.0',
+        to: '0.8.2' // or 'latest?'
+      };
 
-  function chalkExample() {
-    var question = {
-      user: 'chalk',
-      repo: 'chalk',
-      from: '0.5.1',
-      to: '0.3.0'
-    };
+      log('Getting commit SHA for the given tags');
+      log(question);
+      getFromToTags(question)
+        .then(log);
+    }
 
-    log('Getting commit SHA for the given tags');
-    log('%s / %s from %s to %s',
-      question.user, question.repo, question.from, question.to);
-    getFromToTags(question)
-      .then(log);
-  }
+    function chalkExample() {
+      var question = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: '0.5.1',
+        to: '0.3.0'
+      };
 
-  chalkExample();
+      log('Getting commit SHA for the given tags');
+      log('%s / %s from %s to %s',
+        question.user, question.repo, question.from, question.to);
+      getFromToTags(question)
+        .then(log);
+    }
+
+    chalkExample();
+  }());
 }
