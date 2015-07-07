@@ -61,6 +61,9 @@ changedLog(options, reportingOptions);
 */
 ```
 
+The `changedLog` function returns a promise, resolved after report printing is complete.
+The promise is resolved with an instance of `Report`, see [src/report.js](src/report.js)
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015
