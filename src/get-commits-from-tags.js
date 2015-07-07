@@ -29,7 +29,14 @@ function getTags(options) {
   la(check.object(options), 'missing options', options);
   utils.verifyRepoOptions(options);
 
-  return gTags(options)
+  var messageOptions = _.clone(options);
+  if (utils.github.twoFactor) {
+    messageOptions.headers = {
+      'X-GitHub-OTP': utils.github.twoFactor
+    };
+  }
+
+  return gTags(messageOptions)
     .tap(check.array)
     .then(nameAndSha)
     .then(trimVersions);

@@ -5,8 +5,6 @@ var packageRepo = require('./package-repo');
 var log = console.log.bind(console);
 var debug = require('debug')('main');
 var _ = require('lodash');
-var utils = require('./utils');
-var Promise = require('bluebird');
 
 function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
@@ -42,47 +40,6 @@ function findCommentsBetweenTags(options) {
   });
 }
 
-function askGithubUsernameAndPassword() {
-  var inquirer = require('inquirer');
-
-  var username = {
-    type: 'input',
-    name: 'username',
-    message: 'github username'
-  };
-  var password = {
-    type: 'password',
-    name: 'password',
-    message: 'github password (not stored locally)'
-  };
-
-  return new Promise(function (resolve) {
-    inquirer.prompt([username, password], function (answers) {
-      la(check.unemptyString(answers.username), 'missing username');
-      la(check.unemptyString(answers.password), 'missing password');
-      resolve({
-        username: answers.username,
-        password: answers.password
-      });
-    });
-  });
-}
-
-function githubLogin() {
-  return askGithubUsernameAndPassword()
-    .then(function (info) {
-      log('trying to login to github %s', info.username);
-      la(check.unemptyString(info.password), 'empty password for', info.username);
-
-      utils.github.authenticate({
-        type: 'basic',
-        username: info.username,
-        password: info.password
-      });
-    });
-}
-
-
 function changedLogReport(options, reportOptions) {
   // TODO validate options
   options = options || {};
@@ -117,6 +74,7 @@ function changedLog(options, reportOptions) {
 
   if (options.auth) {
     log('Please login to github to increase the API rate limit');
+    var githubLogin = require('./github-login');
     return githubLogin()
       .then(_.partial(changedLogReport, options, reportOptions));
   }

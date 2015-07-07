@@ -15,11 +15,18 @@ function getCommitsFrom(user, repo, latest, stop, previousCommits) {
     user, repo, utils.shortenSha(latest), utils.shortenSha(stop),
     previousCommits.length);
 
-  return getCommits({
+  var messageOptions = {
     user: user,
     repo: repo,
     sha: latest
-  }).then(function (commits) {
+  };
+  if (utils.github.twoFactor) {
+    messageOptions.headers = {
+      'X-GitHub-OTP': utils.github.twoFactor
+    };
+  }
+
+  return getCommits(messageOptions).then(function (commits) {
     debug('got %d new commits from %s to %s',
       commits.length,
       utils.shortenSha(R.head(commits).sha),
