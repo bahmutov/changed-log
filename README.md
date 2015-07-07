@@ -37,6 +37,9 @@ Alternatively you can provide github username / repo instead of NPM package name
 
     $ changed-log kensho/ng-describe 0.3.0 0.5.0
 
+For private repos, you can authenticate one time (including 2Factor) by passing commandline
+option `--auth` with the command
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015
