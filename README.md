@@ -40,6 +40,27 @@ Alternatively you can provide github username / repo instead of NPM package name
 For private repos, you can authenticate one time (including 2Factor) by passing commandline
 option `--auth` with the command
 
+## Using as a module
+
+You can use `changed-log` as a module from your application.
+
+```js
+var changedLog = require('changed-log');
+// exports single function
+changedLog(options, reportingOptions);
+/*
+  options = {
+    auth: true | false - ask user to authenticate, optional 
+    name: <string> - package name OR <github username/repo name> to go directly to Github
+    from: <string> - first tag
+    to: <string> - second tag
+  },
+  reportingOptions = {
+    details: true | false - prints the full commit message if true, otherwise just first line
+  }
+*/
+```
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015
