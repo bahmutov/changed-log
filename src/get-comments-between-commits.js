@@ -42,7 +42,7 @@ function getCommitsFrom(user, repo, latest, stop, previousCommits) {
       }
 
       var last = R.last(allCommits).sha;
-      console.log('could not find the stop commit, fetching more commits starting with %s', last);
+      debug('could not find the stop commit, fetching more commits starting with %s', last);
       // using delay to debug
       return Promise.delay(1).then(function () {
         return getCommitsFrom(user, repo, last, stop, allCommits);
