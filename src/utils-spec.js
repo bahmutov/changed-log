@@ -5,6 +5,29 @@ var check = require('check-more-types');
 describe('utils', function () {
   var utils = require('./utils');
 
+  describe('verifyGithub', function () {
+    var verifyGh = utils.verifyGithub;
+    var repo = {
+      type: 'git',
+      url: 'https://github.com/foo/bar.git'
+    };
+
+    it('works with 2 args', function () {
+      la(check.fn(verifyGh));
+      verifyGh('foo', repo);
+    });
+
+    it('works curried', function () {
+      verifyGh('foo')(repo);
+    });
+
+    it('throws', function () {
+      la(check.raises(function () {
+        verifyGh('foo', null);
+      }), 'threw an error');
+    });
+  });
+
   describe('first line', function () {
     var firstLine = utils.firstLine;
 

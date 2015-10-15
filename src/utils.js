@@ -17,11 +17,17 @@ function isGithubUrl(url) {
     /github\.com/.test(url);
 }
 
-function verifyGithub(repo) {
+function verifyGithub(message, repo) {
+  if (typeof message !== 'string') {
+    repo = message;
+    /* eslint no-undefined:0 */
+    message = undefined;
+  }
+
   la(check.object(repo) &&
     repo.type === 'git' &&
     isGithubUrl(repo.url),
-    'not a github repo', repo);
+    'not a github repo', repo, message);
 }
 
 var GitHubApi = require('github');
@@ -88,7 +94,7 @@ module.exports = {
   isRepoQuestion: isRepoQuestion,
   verifyRepoOptions: verifyRepoOptions,
   github: github,
-  verifyGithub: verifyGithub,
+  verifyGithub: R.curry(verifyGithub),
   parseGithubUrl: parseGithubUrl,
   trimVersion: trimVersion,
   firstLine: firstLine,
