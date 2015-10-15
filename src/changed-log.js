@@ -2,6 +2,7 @@ require('lazy-ass');
 var check = require('check-more-types');
 var packageRepo = require('./package-repo');
 
+/* eslint no-console:0 */
 var log = console.log.bind(console);
 var debug = require('debug')('changed');
 var _ = require('lodash');

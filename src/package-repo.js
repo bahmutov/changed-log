@@ -5,7 +5,7 @@ var R = require('ramda');
 var debug = require('debug')('changed');
 var packageField = Promise.promisify(require('package-json').field);
 var utils = require('./utils');
-
+/* eslint no-console:0 */
 var log = console.log.bind(console);
 
 // resolves with the github url for the given NPM package name

@@ -1,6 +1,7 @@
 require('lazy-ass');
 var check = require('check-more-types');
 
+/* eslint no-console:0 */
 var log = console.log.bind(console);
 var chalk = require('chalk');
 var pkg = require('../package.json');

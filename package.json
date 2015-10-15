@@ -8,7 +8,7 @@
   },
   "scripts": {
     "pretest": "npm run lint",
-    "test": "mocha -R spec src/**/*-spec.js",
+    "test": "mocha -R spec src/**/*-spec.js && npm run chalk",
     "watch": "mocha -R spec --watch src/**/*-spec.js",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "node bin/changed-log.js chalk 0.3.0 0.5.1",
@@ -35,22 +35,22 @@
   },
   "homepage": "https://github.com/bahmutov/changed-log",
   "dependencies": {
-    "bluebird": "2.9.30",
-    "chalk": "1.1.0",
-    "check-more-types": "1.8.2",
+    "bluebird": "2.10.2",
+    "chalk": "1.1.1",
+    "check-more-types": "2.1.1",
     "debug": "2.2.0",
     "github": "0.2.4",
-    "inquirer": "0.8.5",
-    "lazy-ass": "0.5.8",
-    "lodash": "3.10.0",
+    "inquirer": "0.10.1",
+    "lazy-ass": "0.6.0",
+    "lodash": "3.10.1",
     "package-json": "1.2.0",
     "ramda": "0.15.1",
     "update-notifier": "0.5.0"
   },
   "devDependencies": {
     "eslint": "0.24.0",
-    "mocha": "2.2.5",
-    "pre-git": "0.6.1"
+    "mocha": "2.3.3",
+    "pre-git": "0.6.2"
   },
   "pre-commit": "npm test",
   "post-commit": "npm version"

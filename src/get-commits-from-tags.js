@@ -3,6 +3,8 @@ var check = require('check-more-types');
 var utils = require('./utils');
 var _ = require('lodash');
 var Promise = require('bluebird');
+
+/* eslint no-console:0 */
 var log = console.log.bind(console);
 var reposApi = utils.github.repos;
 var gTags = Promise.promisify(reposApi.getTags);

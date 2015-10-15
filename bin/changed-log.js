@@ -3,6 +3,7 @@
 require('lazy-ass');
 var check = require('check-more-types');
 
+/* eslint no-console:0 */
 var log = console.log.bind(console);
 var debug = require('debug')('changed');
 var _ = require('lodash');
