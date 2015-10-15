@@ -2,6 +2,7 @@ require('lazy-ass');
 var check = require('check-more-types');
 var Promise = require('bluebird');
 var R = require('ramda');
+var debug = require('debug')('changed');
 var packageField = Promise.promisify(require('package-json').field);
 var utils = require('./utils');
 
@@ -12,9 +13,11 @@ function packageRepo(name) {
   la(check.unemptyString(name), 'missing package name', name);
 
   if (utils.isGithubName(name)) {
+    debug('package name "%s" is repo', name);
     return Promise.resolve(utils.parseGithubName(name));
   }
 
+  debug('getting package repo for "%s"', name);
   return packageField(name, 'repository')
     .tap(utils.verifyGithub)
     .then(R.prop('url'))
@@ -27,5 +30,6 @@ if (!module.parent) {
   var name = 'next-update';
   log('getting repo info for package %s', name);
   packageRepo(name)
-    .then(log);
+    .then(log)
+    .done();
 }

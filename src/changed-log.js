@@ -83,3 +83,12 @@ function changedLog(options, reportOptions) {
 }
 
 module.exports = changedLog;
+
+if (!module.parent) {
+  // existing package
+  changedLog({
+    name: 'chalk',
+    from: '0.3.0',
+    to: '0.5.1'
+  }).done();
+}
