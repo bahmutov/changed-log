@@ -3,7 +3,6 @@ var check = require('check-more-types');
 var Promise = require('bluebird');
 var R = require('ramda');
 var debug = require('debug')('changed');
-// var packageField = Promise.promisify(require('package-json').field);
 var packageField = require('package-json');
 var utils = require('./utils');
 /* eslint no-console:0 */
