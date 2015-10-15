@@ -18,12 +18,6 @@ function isGithubUrl(url) {
 }
 
 function verifyGithub(message, repo) {
-  if (typeof message !== 'string') {
-    repo = message;
-    /* eslint no-undefined:0 */
-    message = undefined;
-  }
-
   la(check.object(repo) &&
     repo.type === 'git' &&
     isGithubUrl(repo.url),

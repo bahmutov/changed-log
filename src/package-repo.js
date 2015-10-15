@@ -18,14 +18,18 @@ function packageRepo(name) {
   }
 
   debug('getting package repo for "%s"', name);
-  var checkRepo = utils.verifyGithub(name);
+  var json;
 
   return Promise.resolve(packageField(name))
     .then(R.tap(debug))
-    .then(function (json) {
-      return json.repository;
+    .tap(function (info) {
+      json = info;
     })
-    .then(R.tap(checkRepo))
+    .then(R.prop('repository'))
+    .then(function (repo) {
+      utils.verifyGithub(json, repo);
+      return repo;
+    })
     .then(R.prop('url'))
     .then(utils.parseGithubUrl);
 }
