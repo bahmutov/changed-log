@@ -4,7 +4,7 @@ require('lazy-ass');
 var check = require('check-more-types');
 
 var log = console.log.bind(console);
-var debug = require('debug')('main');
+var debug = require('debug')('changed');
 var _ = require('lodash');
 var pkg = require('../package.json');
 var updateNotifier = require('update-notifier');

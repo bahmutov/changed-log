@@ -3,7 +3,7 @@ var check = require('check-more-types');
 var packageRepo = require('./package-repo');
 
 var log = console.log.bind(console);
-var debug = require('debug')('main');
+var debug = require('debug')('changed');
 var _ = require('lodash');
 
 function findCommitIds(options, repoInfo) {
