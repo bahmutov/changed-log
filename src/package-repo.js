@@ -3,7 +3,8 @@ var check = require('check-more-types');
 var Promise = require('bluebird');
 var R = require('ramda');
 var debug = require('debug')('changed');
-var packageField = Promise.promisify(require('package-json').field);
+// var packageField = Promise.promisify(require('package-json').field);
+var packageField = require('package-json');
 var utils = require('./utils');
 /* eslint no-console:0 */
 var log = console.log.bind(console);
@@ -18,8 +19,12 @@ function packageRepo(name) {
   }
 
   debug('getting package repo for "%s"', name);
-  return packageField(name, 'repository')
-    .tap(utils.verifyGithub)
+  return Promise.resolve(packageField(name))
+    .then(R.tap(debug))
+    .then(function (json) {
+      return json.repository;
+    })
+    .then(R.tap(utils.verifyGithub))
     .then(R.prop('url'))
     .then(utils.parseGithubUrl);
 }
@@ -31,5 +36,5 @@ if (!module.parent) {
   log('getting repo info for package %s', name);
   packageRepo(name)
     .then(log)
-    .done();
+    .catch(log);
 }
