@@ -8,6 +8,17 @@ var utils = require('./utils');
 /* eslint no-console:0 */
 var log = console.log.bind(console);
 
+function getRepo(info) {
+  if (check.object(info.repository)) {
+    return info.repository;
+  }
+
+  la(check.object(info.versions), 'missing versions', info);
+  var latestTag = R.last(Object.keys(info.versions));
+  var latest = info.versions[latestTag];
+  return latest.repository;
+}
+
 // resolves with the github url for the given NPM package name
 function packageRepo(name) {
   la(check.unemptyString(name), 'missing package name', name);
@@ -25,8 +36,9 @@ function packageRepo(name) {
     .tap(function (info) {
       json = info;
     })
-    .then(R.prop('repository'))
+    .then(getRepo)
     .then(function (repo) {
+      debug('just the repo', repo);
       utils.verifyGithub(json, repo);
       return repo;
     })
@@ -37,9 +49,12 @@ function packageRepo(name) {
 module.exports = packageRepo;
 
 if (!module.parent) {
-  var name = 'next-update';
-  log('getting repo info for package %s', name);
-  packageRepo(name)
-    .then(log)
-    .catch(log);
+  (function () {
+    // var name = 'next-update';
+    var name = 'grunt-contrib-jshint';
+    log('getting repo info for package %s', name);
+    packageRepo(name)
+      .then(log)
+      .catch(log);
+  }());
 }
