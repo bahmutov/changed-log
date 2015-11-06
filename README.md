@@ -4,6 +4,7 @@
 
 [![NPM][npm-icon] ][npm-url]
 [![Circle CI][circle-ci-icon] ][circle-ci-url]
+[![Travis CI][travis-ci-image] ][travis-ci-url]
 
 Install: `npm install -g changed-log`
 
@@ -50,7 +51,7 @@ var changedLog = require('changed-log');
 changedLog(options, reportingOptions);
 /*
   options = {
-    auth: true | false - ask user to authenticate, optional 
+    auth: true | false - ask user to authenticate, optional
     name: <string> - package name OR <github username/repo name> to go directly to Github
     from: <string> - first tag
     to: <string> - second tag
@@ -108,3 +109,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/changed-log
 [circle-ci-icon]: https://circleci.com/gh/bahmutov/changed-log.svg?style=svg
 [circle-ci-url]: https://circleci.com/gh/bahmutov/changed-log
+[travis-ci-image]: https://travis-ci.org/bahmutov/changed-log.png?branch=master
+[travis-ci-url]: https://travis-ci.org/bahmutov/changed-log
