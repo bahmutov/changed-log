@@ -11,7 +11,7 @@
     "test": "mocha -R spec src/**/*-spec.js && npm run chalk",
     "watch": "mocha -R spec --watch src/**/*-spec.js",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
-    "chalk": "node bin/changed-log.js chalk 0.3.0 0.5.1",
+    "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
     "lint": "eslint bin/*.js src/*.js",
     "commit": "git-cz"
   },
