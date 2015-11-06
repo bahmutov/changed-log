@@ -1,8 +1,8 @@
 {
   "name": "changed-log",
-  "version": "0.7.3",
   "description": "Returns all commit messages between 2 versions of an NPM module",
   "main": "src/changed-log.js",
+  "version": "0.0.0-semantically-released",
   "bin": {
     "changed-log": "bin/changed-log.js"
   },
@@ -14,7 +14,8 @@
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
     "lint": "eslint bin/*.js src/*.js",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "czConfig": {
     "path": "node_modules/cz-conventional-changelog"
@@ -57,7 +58,8 @@
     "cz-conventional-changelog": "1.1.4",
     "eslint": "0.24.0",
     "mocha": "2.3.3",
-    "pre-git": "1.0.0"
+    "pre-git": "1.0.0",
+    "semantic-release": "^4.3.5"
   },
   "config": {
     "pre-git": {
