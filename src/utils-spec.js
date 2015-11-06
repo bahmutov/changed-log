@@ -103,6 +103,14 @@ describe('utils', function () {
   describe('parse github url', function () {
     var parse = utils.parseGithubUrl;
 
+    it('handles dots', function () {
+      var url = 'https://github.com/tj/commander.js.git';
+      var info = parse(url);
+      la(check.object(info), 'parsed into object');
+      la(info.user === 'tj', 'wrong user', info);
+      la(info.repo === 'commander.js', 'wrong repo name', info);
+    });
+
     it('parses example .git', function () {
       var url = 'https://github.com/bahmutov/next-update.git';
       var info = parse(url);

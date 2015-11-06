@@ -34,7 +34,7 @@ var github = new GitHubApi({
 
 function parseGithubUrl(url) {
   la(isGithubUrl(url), 'not a github url', url);
-  var githubUrlRegex = /github\.com[\/:]([a-zA-Z-]+?)\/([a-zA-Z-]+?)(\.git)?$/;
+  var githubUrlRegex = /github\.com[\/:]([a-zA-Z-]+?)\/([a-zA-Z-\.]+?)(\.git)?$/;
   var matches = githubUrlRegex.exec(url);
   la(check.array(matches),
     'could not extract user and repo name from github url', url);
@@ -69,7 +69,7 @@ function firstLine(str) {
 }
 
 // returns true if the package name is really github username/reponame
-var userRepo = /^([\w-]+)?\/([\w-]+)?$/;
+var userRepo = /^([\w-]+)?\/([\w-\.]+)?$/;
 function isGithubName(str) {
   return check.unemptyString(str) &&
     userRepo.test(str);
