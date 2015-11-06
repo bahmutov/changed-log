@@ -36,4 +36,5 @@ if (!isValidCliOptions(options)) {
 }
 
 var changedLog = require('../src/changed-log');
-changedLog(options).done();
+changedLog(options)
+  .done();

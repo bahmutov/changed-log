@@ -9,6 +9,9 @@ var utils = require('./utils');
 var log = console.log.bind(console);
 
 function getRepo(info) {
+  debug('Getting repo from info object');
+  debug(info);
+
   if (check.object(info.repository)) {
     return info.repository;
   }
@@ -17,6 +20,12 @@ function getRepo(info) {
   var latestTag = R.last(Object.keys(info.versions));
   var latest = info.versions[latestTag];
   return latest.repository;
+}
+
+function failedAtSomething(label, err) {
+  console.error('failed at %s', label);
+  console.error(err);
+  return Promise.reject(err);
 }
 
 // resolves with the github url for the given NPM package name
@@ -32,18 +41,22 @@ function packageRepo(name) {
   var json;
 
   return Promise.resolve(packageField(name))
-    .then(R.tap(debug))
+    .then(R.tap(debug), R.partial(failedAtSomething, 'package field'))
     .tap(function (info) {
       json = info;
     })
     .then(getRepo)
+    .catch(R.partial(failedAtSomething, 'getting repo info'))
     .then(function (repo) {
       debug('just the repo', repo);
       utils.verifyGithub(json, repo);
       return repo;
     })
     .then(R.prop('url'))
-    .then(utils.parseGithubUrl);
+    .then(utils.parseGithubUrl)
+    .then(R.tap(function (parsed) {
+      debug('parsed github url', parsed);
+    }));
 }
 
 module.exports = packageRepo;

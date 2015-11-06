@@ -1,25 +1,33 @@
 require('lazy-ass');
 var check = require('check-more-types');
 var packageRepo = require('./package-repo');
+var Promise = require('bluebird');
 
 /* eslint no-console:0 */
 var log = console.log.bind(console);
 var debug = require('debug')('changed');
 var _ = require('lodash');
 
+function failedToFind(err) {
+  console.error('Could not find commit ids');
+  console.error(err.message);
+  return Promise.reject(err);
+}
+
 function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
-
+  debug('Finding commit ids');
   var tagsToCommits = require('./get-commits-from-tags');
   return tagsToCommits({
     user: repoInfo.user,
     repo: repoInfo.repo,
     from: options.from,
     to: options.to
-  }).tap(debug)
+  })
+    .tap(debug)
     .then(function mergeCommitInfo(tagsInfo) {
       return _.extend({}, repoInfo, options, tagsInfo);
-    });
+    }, failedToFind);
 }
 
 function findCommentsBetweenTags(options) {
