@@ -12,7 +12,11 @@
     "watch": "mocha -R spec --watch src/**/*-spec.js",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "node bin/changed-log.js chalk 0.3.0 0.5.1",
-    "lint": "eslint bin/*.js src/*.js"
+    "lint": "eslint bin/*.js src/*.js",
+    "commit": "git-cz"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
   },
   "repository": {
     "type": "git",
@@ -48,10 +52,19 @@
     "update-notifier": "0.5.0"
   },
   "devDependencies": {
+    "commitizen": "2.4.1",
+    "cz-conventional-changelog": "1.1.4",
     "eslint": "0.24.0",
     "mocha": "2.3.3",
-    "pre-git": "0.6.2"
+    "pre-git": "1.0.0"
   },
-  "pre-commit": "npm test",
-  "post-commit": "npm version"
+  "config": {
+    "pre-git": {
+      "commit-msg": "validate-commit-msg",
+      "pre-commit": "npm test",
+      "pre-push": [],
+      "post-commit": "npm version",
+      "post-merge": []
+    }
+  }
 }
