@@ -8,8 +8,9 @@
   },
   "scripts": {
     "pretest": "npm run lint",
-    "test": "mocha -R spec src/**/*-spec.js && npm run chalk",
-    "watch": "mocha -R spec --watch src/**/*-spec.js",
+    "mocha": "mocha -R spec src/**/*-spec.js",
+    "test": "npm run mocha && npm run chalk",
+    "watch": "npm run mocha -- --watch",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
     "lint": "eslint bin/*.js src/*.js",
