@@ -3,19 +3,32 @@ console.log('running with mocked Github calls');
 require('lazy-ass');
 var check = require('check-more-types');
 var Promise = require('bluebird');
-var mockData = require('./mock-chalk-ids.json');
+var mockCommits = require('./mock-chalk-ids.json');
+var mockComments = require('./mock-chalk-comments.json');
 
 require = require('really-need');
 
 function mockGetCommitsFromTags(info) {
   console.log('mock get commits from tags', info);
   la(info.repo === 'chalk', 'got unexpected request', info);
-  return Promise.resolve(mockData);
+  return Promise.resolve(mockCommits);
+}
+
+function mockGetComments(info) {
+  console.log('mock get comments between commits', info);
+  la(info.repo === 'chalk', 'got unexpected request', info);
+  return Promise.resolve(mockComments);
 }
 
 require('../src/get-commits-from-tags', {
   post: function (exported, filename) {
     return mockGetCommitsFromTags;
+  }
+});
+
+require('../src/get-commits-between', {
+  post: function (exported, filename) {
+    return mockGetComments;
   }
 });
 

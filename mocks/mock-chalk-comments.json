@@ -1,0 +1,194 @@
+[
+  {
+    "sha": "994758f01293f1fdcf63282e9917cb9f2cfbdaac",
+    "message": "0.5.1"
+  },
+  {
+    "sha": "ca250abed26a3081ee4878e95871cea7d332a773",
+    "message": "Merge pull request #33 from seanmonstar/_styles\n\nfix caching of styles, fixes #32"
+  },
+  {
+    "sha": "7ef6f4c48a3eae587e8bc7db32d5aaa809565e1b",
+    "message": "dont use slice on arguments\n\n~21% increase with multiple arguments"
+  },
+  {
+    "sha": "42918337e5503c1ec358f485dcd2cc295214b5f9",
+    "message": "return a new function for each getter\n\n- defines the getters onto a proto\n- the function returned has its __proto__ set to our proto\n\nfixes #32"
+  },
+  {
+    "sha": "3073fa3110134e840ee79eaffb61866182b4b7fa",
+    "message": "0.5.0"
+  },
+  {
+    "sha": "af175295fbd0e8344f0f5ef3eaf9df44ea606244",
+    "message": "use rawgithub to workaround npm website bug with relative image paths"
+  },
+  {
+    "sha": "3ab833de62108295cd86cc9fd699f4e109e4fdbe",
+    "message": "bench - increase iterations for more reliable results"
+  },
+  {
+    "sha": "d255f42a9e3a337f8e3975cd751741feaed2fff9",
+    "message": "bench - minor code style tweaks"
+  },
+  {
+    "sha": "0dde0473e03ded958099456a7a86880193a386df",
+    "message": "add benchmark to package.json\n\nrun with `npm run bench`"
+  },
+  {
+    "sha": "2b859bb9751114dcc56c3bd21624278a65f6abca",
+    "message": "Adds performance to readme."
+  },
+  {
+    "sha": "3026d71e0eea14f71d9f8779d2e12305d6aa67e2",
+    "message": "Adds benchmarking using matcha.\n\nRun through:\n```shell\n./node_modules/matcha/bin/matcha benchmark.js\n```\n\nResults against current HEAD:\n```shell\n1,863,195 op/s » add colour\n2,215,812 op/s » add several styles\n  323,213 op/s » add nested styles\n```\n\nResults against the latest revision before optiziations, e122899\n```shell\n  26,714 op/s » add colour\n  26,752 op/s » add several styles\n  13,414 op/s » add nested styles\n```\n\nCloses #21"
+  },
+  {
+    "sha": "e12289964d8d3fb697c0c12a06010a2ca1847cac",
+    "message": "use String constructor rather than + for coercion"
+  },
+  {
+    "sha": "23eab5cdf454408daaa62a36646d6fa5254c4c4b",
+    "message": "Merge pull request #28 from jbnicolai/fast-js\n\nReplaces Array.prototype.reduce with an explicit loop for performance."
+  },
+  {
+    "sha": "580fe4d7183fc7771b3bad638085b912fb98266a",
+    "message": "Replaces Array.prototype.reduce with a for loop.\n\nAs this is possibly the hottest code path, this speeds up average total\nexecution time with about 25%, benchmarking shows."
+  },
+  {
+    "sha": "c8fe7c39665fd8b86739c2ecc6c3987d5b8e52c4",
+    "message": "Adds myself - jbnicolai - as a contributor."
+  },
+  {
+    "sha": "d9d6e9d7f499730d30bbb8f5240ef243a404e5fe",
+    "message": "Update readme.md"
+  },
+  {
+    "sha": "135852fd928629f3b09c5e46373f227b13c82266",
+    "message": "Merge pull request #27 from jbnicolai/optimize\n\nPerformance optimizations (ca. Factor 75)"
+  },
+  {
+    "sha": "b0523a44384a29987f75540afc761f381aedd798",
+    "message": "Performance optimizations (ca. Factor 75)\n\n- Precomputed style function\n- Skip arguments to array + join if there's only one argument (the\n  common case)\n- Merge multiple return statements to one\n\nTo calculate the performance benefit:\n\n```javascript\nvar chalk = require('./index.js');\nconsole.time('100000 iterations');\nfor (var i = 0; i < 100000; i++) {\n\tchalk.red('A string that is about 80 characters long (normal use I think?)');\n}\nconsole.timeEnd('100000 iterations');\n```\n\nRunning this before this commit:\n```shell\nfor i in {1..5}; do node time.js; done\n100000 iterations: 19485ms\n100000 iterations: 18933ms\n100000 iterations: 19365ms\n100000 iterations: 19332ms\n100000 iterations: 18660ms\n```\n\nAfter:\n```shell\n100000 iterations: 268ms\n100000 iterations: 261ms\n100000 iterations: 264ms\n100000 iterations: 259ms\n100000 iterations: 254ms\n```\n\nPerformance gain, taking the middle result of both:\n```shell\n19332 / 261 = 74.~\n```\n\nCloses #16"
+  },
+  {
+    "sha": "732fb08e2bbb3e6de2ea034d4f701b6c819d3241",
+    "message": "bump strip-ansi"
+  },
+  {
+    "sha": "90bd6477d6d3e2d31dee9b2ee3e721026521bd47",
+    "message": "add `.hasColor()` method - fixes #23"
+  },
+  {
+    "sha": "eff96c2c157c578f63b6041d9fecbe2705ff5a75",
+    "message": "readme tweaks"
+  },
+  {
+    "sha": "763b167349022480c8ab0c4d194919e3fe855f74",
+    "message": "refactor and extract the RegExp escaping"
+  },
+  {
+    "sha": "195679229329f4fe738c834e120b99473bf97d86",
+    "message": "Merge pull request #25 from jbnicolai/nested-expressions\n\nAdds support for nested chalk expressions."
+  },
+  {
+    "sha": "d16b0ce3677f33bb67ee9cdf7a2bb8795eb60e04",
+    "message": "Adds support for nested chalk expressions.\n\ngreen(a + blue(b) + c) will now look the same as green(a) +\nblue(b) + green(c), as expected. In the previous implementation the\noutput would have been green(a) + blue(b) + c, because the reset code of\nthe second expression would close all expressions around it as well.\n\nNow this reset code is replaced by a start code of the outer lying\nexpression, both stopping the inner and re-starting the outer."
+  },
+  {
+    "sha": "1ec4985bc01f3f9b72683afdb166a9be4b70b2b2",
+    "message": "Delete screenshot.png"
+  },
+  {
+    "sha": "144421dc16c4e323fa6d1d074ede9abf75323b5d",
+    "message": "has-color => supports-color"
+  },
+  {
+    "sha": "90f012c79363640f8a790e3060921d7049373a4f",
+    "message": "1000+ dependents! ✌⊂(✰‿✰)つ✌"
+  },
+  {
+    "sha": "cf7eb2d0c7ac20ad6864773451dd59210e7a4612",
+    "message": "various tweaks"
+  },
+  {
+    "sha": "fa9bd4ebd9a3acb775c96e246aa7770c3b8e512b",
+    "message": "bump ansi-styles"
+  },
+  {
+    "sha": "90e2260f5863f1c4f9b4994c341e9359292caeb3",
+    "message": "Merge pull request #18 from tunnckoCore/patch-1\n\nupdate \"used by\" (number of dependents)"
+  },
+  {
+    "sha": "449fa45b4062916a9954de89f3f1b66f74822171",
+    "message": "update \"used by\" (number of dependents)"
+  },
+  {
+    "sha": "d5d08a09953a1a4a048f32e96990c04d0c8970aa",
+    "message": "Update readme.md"
+  },
+  {
+    "sha": "af4983c011e23fa4097759f702c383746d6a70c4",
+    "message": "bump strip-ansi"
+  },
+  {
+    "sha": "d99230962138f6d8a3c0c3a9856ca5632d4c1efd",
+    "message": "Update readme.md"
+  },
+  {
+    "sha": "ebf961e585b3f04279ae97bd8b5602a9a244a4c0",
+    "message": "yay"
+  },
+  {
+    "sha": "13a555ede8773d5bc6e13668573c804ab9a34404",
+    "message": "readme - add string substitution example\n\nFixes #8"
+  },
+  {
+    "sha": "b0addb86d6add080d0e3d453b50e17e84d33b495",
+    "message": "Update index.js"
+  },
+  {
+    "sha": "0a33a270b1e00ae4dea31b8ca368056d6823a148",
+    "message": "0.4.0"
+  },
+  {
+    "sha": "d30fd3c3bdedbace7bb0cb0aa951b7a55998f1f2",
+    "message": "improve package.json"
+  },
+  {
+    "sha": "d2a10520428ea803e293877f6f0fa1cecc9b8c68",
+    "message": "use index.js"
+  },
+  {
+    "sha": "342686202dad747e11b152df305bede49d9dde86",
+    "message": "Improve docs"
+  },
+  {
+    "sha": "639f6b95cbe21dfcf12a47151688afd226a60623",
+    "message": "simplify logic"
+  },
+  {
+    "sha": "fc53420ae44760c14287a5bd3c588b039b588321",
+    "message": "Update readme.md"
+  },
+  {
+    "sha": "492d63916c2f886335c6557e6305444828e38470",
+    "message": "don't output escape codes if the input is empty"
+  },
+  {
+    "sha": "879defda72b072597cd4b68f6f99a4f6f6e4e67b",
+    "message": "Update to latest `ansi-styles`"
+  },
+  {
+    "sha": "a66c48630194c16b06a8714249c8877fe0370588",
+    "message": "use `strip-ansi`\n\nhttps://github.com/sindresorhus/strip-ansi"
+  },
+  {
+    "sha": "77ae94f63ab1ac61389b190e5a59866569d1a376",
+    "message": "Add logo"
+  },
+  {
+    "sha": "15f928fce589ba47c8770d7b8e249f86fb786c4a",
+    "message": "Update readme"
+  }
+]

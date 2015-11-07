@@ -14,6 +14,12 @@ function failedToFind(err) {
   return Promise.reject(err);
 }
 
+function failedToFindComments(err) {
+  console.error('Could not find comments');
+  console.error(err.message);
+  return Promise.reject(err);
+}
+
 function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
   debug('Finding commit ids');
@@ -46,7 +52,7 @@ function findCommentsBetweenTags(options) {
     report.options.from = options.from;
     report.options.to = options.to;
     return report;
-  });
+  }, failedToFindComments);
 }
 
 function changedLogReport(options, reportOptions) {
@@ -64,6 +70,10 @@ function changedLogReport(options, reportOptions) {
       allTags = result.allTags;
     })
     .then(findCommentsBetweenTags)
+    .tap(function (result) {
+      console.log('found %d comments between tags', result.comments.length);
+      // console.log(JSON.stringify(result, null, 2));
+    })
     .then(function mergeCommitsAndTags(report) {
       report.allTags = allTags;
       return report;
