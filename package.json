@@ -9,7 +9,7 @@
   "scripts": {
     "pretest": "npm run lint",
     "mocha": "mocha -R spec src/**/*-spec.js",
-    "test": "npm run mocha && npm run chalk",
+    "test": "npm run mocha && npm run chalk-with-mock",
     "watch": "npm run mocha -- --watch",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
@@ -60,6 +60,7 @@
     "eslint": "0.24.0",
     "mocha": "2.3.3",
     "pre-git": "1.0.0",
+    "really-need": "1.6.3",
     "semantic-release": "^4.3.5"
   },
   "config": {
