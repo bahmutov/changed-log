@@ -1,0 +1,56 @@
+{
+  "fromTag": {
+    "name": "0.3.0",
+    "sha": "b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb"
+  },
+  "toTag": {
+    "name": "0.5.1",
+    "sha": "994758f01293f1fdcf63282e9917cb9f2cfbdaac"
+  },
+  "allTags": [
+    {
+      "name": "1.1.1",
+      "sha": "8b554e254e89c85c1fd04dcc444beeb15824e1a5"
+    },
+    {
+      "name": "1.1.0",
+      "sha": "e9bb6e6000b1c5d4508afabfdc85dd70f582f515"
+    },
+    {
+      "name": "1.0.0",
+      "sha": "8864d3563313ed15574a38dd5c9d5966080c46ce"
+    },
+    {
+      "name": "0.5.1",
+      "sha": "994758f01293f1fdcf63282e9917cb9f2cfbdaac"
+    },
+    {
+      "name": "0.5.0",
+      "sha": "3073fa3110134e840ee79eaffb61866182b4b7fa"
+    },
+    {
+      "name": "0.4.0",
+      "sha": "0a33a270b1e00ae4dea31b8ca368056d6823a148"
+    },
+    {
+      "name": "0.3.0",
+      "sha": "b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb"
+    },
+    {
+      "name": "0.2.1",
+      "sha": "0133342393e693ee4c57678aba59b9d04dda981e"
+    },
+    {
+      "name": "0.2.0",
+      "sha": "c8f8a1f6f3f1d146a617a6f0e1e044405ba56835"
+    },
+    {
+      "name": "0.1.1",
+      "sha": "f5d282b07a8db2d52c3ab3726087e32fb410b5d7"
+    },
+    {
+      "name": "0.1.0",
+      "sha": "466710d17eaa8d5a8728e8173492f0825b29d2d6"
+    }
+  ]
+}

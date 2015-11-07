@@ -13,6 +13,7 @@
     "watch": "npm run mocha -- --watch",
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
+    "chalk-with-mock": "DEBUG=changed node mocks/mock-for-chalk.js bin/changed-log.js chalk 0.3.0 0.5.1",
     "lint": "eslint bin/*.js src/*.js",
     "commit": "git-cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
