@@ -14,7 +14,7 @@
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
     "chalk-with-mock": "DEBUG=changed node mocks/mock-for-chalk.js bin/changed-log.js chalk 0.3.0 0.5.1",
-    "lint": "eslint bin/*.js src/*.js",
+    "lint": "eslint bin/*.js src/*.js mocks/*.js",
     "commit": "git-cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -60,8 +60,8 @@
     "eslint": "0.24.0",
     "mocha": "2.3.3",
     "pre-git": "1.0.0",
-    "really-need": "1.6.3",
-    "semantic-release": "^4.3.5"
+    "really-need": "1.7.0",
+    "semantic-release": "4.3.5"
   },
   "config": {
     "pre-git": {

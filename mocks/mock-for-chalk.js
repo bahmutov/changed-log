@@ -1,11 +1,13 @@
+/* eslint no-console:0 */
 console.log('running with mocked Github calls');
 
 require('lazy-ass');
-var check = require('check-more-types');
+var R = require('ramda');
 var Promise = require('bluebird');
 var mockCommits = require('./mock-chalk-ids.json');
 var mockComments = require('./mock-chalk-comments.json');
 
+/* eslint no-undef:0 */
 require = require('really-need');
 
 function mockGetCommitsFromTags(info) {
@@ -21,15 +23,11 @@ function mockGetComments(info) {
 }
 
 require('../src/get-commits-from-tags', {
-  post: function (exported, filename) {
-    return mockGetCommitsFromTags;
-  }
+  post: R.always(mockGetCommitsFromTags)
 });
 
 require('../src/get-commits-between', {
-  post: function (exported, filename) {
-    return mockGetComments;
-  }
+  post: R.always(mockGetComments)
 });
 
 (function adjustProcessArgs() {
@@ -40,5 +38,7 @@ require('../src/get-commits-between', {
 }());
 
 console.log('loading the real script from %s', process.argv[1]);
-require(process.argv[1]);
-
+/* eslint no-undefined:0 */
+require(process.argv[1], {
+  parent: undefined
+});
