@@ -86,10 +86,52 @@ function changedLogReport(options, reportOptions) {
     });
 }
 
+function onlyProvidedFromVersion(options) {
+  return check.unemptyString(options.from) &&
+    !options.to;
+}
+
+function fillMissingFromOptions(options) {
+  la(check.unemptyString(options.name), 'missing package name', options);
+  var exists = require('fs').existsSync;
+  var join = require('path').join;
+  var packageFileName = join(process.cwd(), 'package.json');
+  if (!exists(packageFileName)) {
+    return;
+  }
+  var pkg = require(packageFileName);
+  var dependency = (pkg.dependencies && pkg.dependencies[options.name]) ||
+    (pkg.devDependencies && pkg.devDependencies[options.name]);
+  if (dependency) {
+    options.to = options.from;
+    options.from = dependency;
+    console.log('using "from" version from package.json %s', dependency);
+  }
+}
+
+function missingOptions(options) {
+  var isValidCliOptions = check.schema.bind(null, {
+    name: check.unemptyString,
+    from: check.unemptyString,
+    to: check.unemptyString
+  });
+  return !isValidCliOptions(options);
+}
+
 function changedLog(options, reportOptions) {
-  // TODO validate options
   options = options || {};
   reportOptions = reportOptions || {};
+
+  if (onlyProvidedFromVersion(options)) {
+    // assume we specified target "to" version
+    fillMissingFromOptions(options);
+  }
+
+  if (missingOptions(options)) {
+    console.error('Missing options', options);
+    /* eslint no-process-exit:0 */
+    process.exit(-1);
+  }
 
   if (options.auth) {
     log('Please login to github to increase the API rate limit');

@@ -22,10 +22,11 @@ options.auth = _.some(process.argv, function (word) {
 });
 debug('options', options);
 
+// TODO implement semver in check-more-types
 var isValidCliOptions = check.schema.bind(null, {
   name: check.unemptyString,
-  from: check.unemptyString,
-  to: check.unemptyString
+  from: check.maybe.unemptyString,
+  to: check.maybe.unemptyString
 });
 if (!isValidCliOptions(options)) {
   log('%s@%s <package name> <from version> <to version> [options]',
