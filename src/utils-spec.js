@@ -136,5 +136,11 @@ describe('utils', function () {
       la(info.repo === 'ng-describe', 'wrong repo', info);
     });
 
+    it('parses urls with numbers', function () {
+      var url = 'https://github.com/foo/bar-a2b-baz';
+      var info = parse(url);
+      la(info.user === 'foo', 'wrong user', info);
+      la(info.repo === 'bar-a2b-baz', 'wrong repo', info);
+    });
   });
 });
