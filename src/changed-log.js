@@ -100,6 +100,7 @@ function readPackageJson() {
   var exists = require('fs').existsSync;
   var join = require('path').join;
   var packageFileName = join(process.cwd(), 'package.json');
+  /* eslint consistent-return:0 */
   if (!exists(packageFileName)) {
     return;
   }
@@ -110,6 +111,7 @@ function readPackageJson() {
 function getDependency(name) {
   la(check.unemptyString(name), 'missing package name', name);
   var pkg = readPackageJson();
+  /* eslint consistent-return:0 */
   if (!pkg) {
     return;
   }
