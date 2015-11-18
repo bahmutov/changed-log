@@ -57,7 +57,8 @@ function getFromToTags(question) {
       var fromTagIndex = _.findIndex(allTags, 'name', question.from);
       la(fromTagIndex !== -1, 'cannot find tag', question.from, 'all tags', allTags);
 
-      var toTagIndex = _.findIndex(allTags, 'name', question.to);
+      var toTagIndex = question.to === 'latest' ? 0 :
+        _.findIndex(allTags, 'name', question.to);
       la(toTagIndex !== -1, 'cannot to tag', question.to, 'all tags', allTags);
 
       debug('from tag %s index %d to tag %s index %d',

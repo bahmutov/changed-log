@@ -41,6 +41,26 @@ Alternatively you can provide github username / repo instead of NPM package name
 For private repos, you can authenticate one time (including 2Factor) by passing commandline
 option `--auth` with the command
 
+## Edge cases
+
+To find all changes between a module and the latest release use the command
+
+    $ changed-log <name> <from> latest
+    $ changed-log pre-git 1.2.0 latest
+
+If you only provide a single version from a folder that contains `package.json`
+it will read the 'from' version from the the `package.json`, assuming you have only
+provided the 'to' version
+
+    $ changed-log <name> <to>
+    # reads name "from" version in the package.json
+
+If you do not provide any version information, it tries to read 'from' version
+in the `package.json` and uses `latest` for 'to' version
+
+    $ changed-log <name>
+    # shows list of commits between the current version in package.json and latest
+
 ## Using as a module
 
 You can use `changed-log` as a module from your application.

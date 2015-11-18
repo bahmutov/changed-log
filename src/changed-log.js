@@ -91,8 +91,12 @@ function onlyProvidedFromVersion(options) {
     !options.to;
 }
 
-function fillMissingFromOptions(options) {
-  la(check.unemptyString(options.name), 'missing package name', options);
+function providedNoVersions(options) {
+  return !options.from &&
+    !options.to;
+}
+
+function readPackageJson() {
   var exists = require('fs').existsSync;
   var join = require('path').join;
   var packageFileName = join(process.cwd(), 'package.json');
@@ -100,12 +104,35 @@ function fillMissingFromOptions(options) {
     return;
   }
   var pkg = require(packageFileName);
-  var dependency = (pkg.dependencies && pkg.dependencies[options.name]) ||
-    (pkg.devDependencies && pkg.devDependencies[options.name]);
+  return pkg;
+}
+
+function getDependency(name) {
+  la(check.unemptyString(name), 'missing package name', name);
+  var pkg = readPackageJson();
+  if (!pkg) {
+    return;
+  }
+  var dependency = (pkg.dependencies && pkg.dependencies[name]) ||
+    (pkg.devDependencies && pkg.devDependencies[name]);
+  return dependency;
+}
+
+function fillMissingFromOptions(options) {
+  var dependency = getDependency(options.name);
   if (dependency) {
     options.to = options.from;
     options.from = dependency;
     console.log('using "from" version from package.json %s', dependency);
+  }
+}
+
+function fillMissingFromToOptions(options) {
+  var dependency = getDependency(options.name);
+  if (dependency) {
+    options.from = dependency;
+    options.to = 'latest';
+    console.log('using "from" version from package.json %s to "latest"', dependency);
   }
 }
 
@@ -125,6 +152,11 @@ function changedLog(options, reportOptions) {
   if (onlyProvidedFromVersion(options)) {
     // assume we specified target "to" version
     fillMissingFromOptions(options);
+  }
+
+  if (providedNoVersions(options)) {
+    // assume we need "latest" "to" version
+    fillMissingFromToOptions(options);
   }
 
   if (missingOptions(options)) {
