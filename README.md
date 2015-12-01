@@ -89,6 +89,13 @@ changedLog(options, reportingOptions);
 The `changedLog` function returns a promise, resolved after report printing is complete.
 The promise is resolved with an instance of `Report`, see [src/report.js](src/report.js)
 
+## Debug
+
+If something is not working, you can see verbose log output, just run the program
+with `DEBUG=changed` environment variable set
+
+    DEBUG=changed changed-log ...
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015

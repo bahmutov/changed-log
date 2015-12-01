@@ -1,6 +1,8 @@
+var log = require('debug')('changed');
 require('lazy-ass');
 var check = require('check-more-types');
 var R = require('ramda');
+var parseGh = require('parse-github-repo-url');
 
 var repoSchema = {
   user: check.unemptyString,
@@ -34,6 +36,8 @@ var github = new GitHubApi({
 
 function parseGithubUrl(url) {
   la(isGithubUrl(url), 'not a github url', url);
+  log('parsing github url', url);
+
   var githubUrlRegex = /github\.com[\/:]([a-zA-Z-]+?)\/([a-zA-Z-\.0-9]+?)(\.git)?$/;
   var matches = githubUrlRegex.exec(url);
   la(check.array(matches),
@@ -69,18 +73,21 @@ function firstLine(str) {
 }
 
 // returns true if the package name is really github username/reponame
-var userRepo = /^([\w-]+)?\/([\w-\.]+)?$/;
 function isGithubName(str) {
-  return check.unemptyString(str) &&
-    userRepo.test(str);
+  if (check.not.unemptyString(str)) {
+    return false;
+  }
+  var parsed = parseGh(str);
+  return check.array(parsed);
 }
 
 function parseGithubName(str) {
   la(isGithubName(str), 'not a github name', str);
-  var matches = userRepo.exec(str);
+  log('parsing github name', str);
+  var matches = parseGh(str);
   return {
-    user: matches[1],
-    repo: matches[2]
+    user: matches[0],
+    repo: matches[1]
   };
 }
 
