@@ -16,6 +16,7 @@
     "chalk-with-mock": "DEBUG=changed node mocks/mock-for-chalk.js bin/changed-log.js chalk 0.3.0 0.5.1",
     "lint": "eslint bin/*.js src/*.js mocks/*.js",
     "commit": "git-cz",
+    "issues": "git-issues",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "czConfig": {
@@ -58,6 +59,7 @@
     "commitizen": "2.4.1",
     "cz-conventional-changelog": "1.1.4",
     "eslint": "0.24.0",
+    "git-issues": "1.2.0",
     "mocha": "2.3.3",
     "pre-git": "1.0.0",
     "really-need": "1.7.0",

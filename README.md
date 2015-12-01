@@ -5,10 +5,14 @@
 [![NPM][npm-icon] ][npm-url]
 [![Circle CI][circle-ci-icon] ][circle-ci-url]
 [![Travis CI][travis-ci-image] ][travis-ci-url]
+[![semantic-release][semantic-image] ][semantic-url]
+[![manpm](https://img.shields.io/badge/manpm-%E2%9C%93-3399ff.svg)](https://github.com/bahmutov/manpm)
 
-Install: `npm install -g changed-log`
+## Install
 
-Use:
+    npm install -g changed-log
+
+## How to use
 
 > What has changed for module 'chalk' between version 0.3.0 and 0.5.1?
 
@@ -131,3 +135,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 [circle-ci-url]: https://circleci.com/gh/bahmutov/changed-log
 [travis-ci-image]: https://travis-ci.org/bahmutov/changed-log.png?branch=master
 [travis-ci-url]: https://travis-ci.org/bahmutov/changed-log
+[semantic-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-url]: https://github.com/semantic-release/semantic-release
