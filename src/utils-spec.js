@@ -103,6 +103,14 @@ describe('utils', function () {
   describe('parse github url', function () {
     var parse = utils.parseGithubUrl;
 
+    it('handles numbers and dashes', function () {
+      var url = 'https://github.com/bahmutov/grunt-npm2bower-sync';
+      var info = parse(url);
+      la(check.object(info), 'could not parse', url);
+      la(info.user === 'bahmutov', info);
+      la(info.repo === 'grunt-npm2bower-sync', info);
+    });
+
     it('handles dots', function () {
       var url = 'https://github.com/tj/commander.js.git';
       var info = parse(url);
