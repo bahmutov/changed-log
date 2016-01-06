@@ -7,7 +7,7 @@ notifications:
   email: false
 node_js:
   - '0.12'
-  - '4'
+  - '4.2.2'
 before_install:
   - npm i -g npm@^2.0.0
 before_script:

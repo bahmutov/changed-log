@@ -55,12 +55,23 @@
     "update-notifier": "0.5.0"
   },
   "devDependencies": {
+    "@semantic-release/condition-travis": "^4.1.4",
+    "condition-node-version": "^1.2.0",
     "eslint": "0.24.0",
     "git-issues": "1.2.0",
     "mocha": "2.3.4",
     "pre-git": "1.4.0",
     "really-need": "1.7.2",
     "semantic-release": "6.0.3"
+  },
+  "release": {
+    "verifyConditions": [{
+      "path": "@semantic-release/condition-travis"
+    }, {
+      "path": "condition-node-version",
+      "node": "4.2.2",
+      "verbose": true
+    }]
   },
   "config": {
     "pre-git": {
