@@ -51,7 +51,7 @@
     "lazy-ass": "0.6.0",
     "lodash": "3.10.1",
     "package-json": "2.2.1",
-    "parse-github-repo-url": "git+https://github.com/bahmutov/parse-github-repo-url.git#655d7b60c265335c117a9e0ab764a6f483e173bb",
+    "@bahmutov/parse-github-repo-url": "0.0.0",
     "ramda": "0.15.1",
     "update-notifier": "0.5.0"
   },

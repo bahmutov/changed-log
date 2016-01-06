@@ -9,10 +9,11 @@ node_js:
   - '0.12'
   - '4.2.2'
 before_install:
-  - npm i -g npm@^3.0.0
+  - npm i -g npm@^2.0.0
 before_script:
   - npm prune
 script:
+  - npm run lint
   - npm test
 after_success:
   - npm run semantic-release
