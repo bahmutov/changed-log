@@ -150,5 +150,12 @@ describe('utils', function () {
       la(info.user === 'foo', 'wrong user', info);
       la(info.repo === 'bar-a2b-baz', 'wrong repo', info);
     });
+
+    it('parses git+https://github.com/sboudrias/Inquirer.js.git', function () {
+      var url = 'git+https://github.com/sboudrias/Inquirer.js.git';
+      var info = parse(url);
+      la(info.user === 'sboudrias', 'wrong user', info);
+      la(info.repo === 'Inquirer.js', 'wrong repo', info);
+    });
   });
 });
