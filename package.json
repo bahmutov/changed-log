@@ -18,7 +18,8 @@
     "commit": "git-issues && commit-wizard",
     "issues": "git-issues",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test-angular": "DEBUG=changed node bin/changed-log.js https://github.com/angular/angular.js.git 1.4.0 1.4.1"
+    "test-angular": "DEBUG=changed node bin/changed-log.js https://github.com/angular/angular.js.git 1.4.0 1.4.1",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   },
   "repository": {
     "type": "git",
@@ -64,6 +65,11 @@
     "really-need": "1.7.2",
     "semantic-release": "6.0.3"
   },
+  "files": [
+    "bin",
+    "src/*.js",
+    "!src/*-spec.js"
+  ],
   "release": {
     "verifyConditions": [{
       "path": "@semantic-release/condition-travis"
@@ -77,8 +83,7 @@
     "pre-git": {
       "commit-msg": "validate-commit-msg",
       "pre-commit": "npm test",
-      "pre-push": [],
-      "post-commit": "npm version",
+      "pre-push": ["npm run size"],
       "post-merge": []
     }
   }
