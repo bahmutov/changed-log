@@ -3,6 +3,7 @@
 > Returns all commit messages between 2 versions of an NPM module
 
 [![NPM][npm-icon] ][npm-url]
+
 [![Circle CI][circle-ci-icon] ][circle-ci-url]
 [![Travis CI][travis-ci-image] ][travis-ci-url]
 [![semantic-release][semantic-image] ][semantic-url]
