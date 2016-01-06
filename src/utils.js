@@ -2,7 +2,7 @@ var log = require('debug')('changed');
 require('lazy-ass');
 var check = require('check-more-types');
 var R = require('ramda');
-var parseGh = require('parse-github-repo-url');
+var parseGh = require('@bahmutov/parse-github-repo-url');
 
 var repoSchema = {
   user: check.unemptyString,
