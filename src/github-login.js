@@ -1,4 +1,4 @@
-require('lazy-ass');
+var la = require('lazy-ass');
 var check = require('check-more-types');
 /* eslint no-console:0 */
 var log = console.log.bind(console);

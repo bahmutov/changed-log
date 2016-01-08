@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 console.log('running with mocked Github calls');
 
-require('lazy-ass');
+var la = require('lazy-ass');
 var R = require('ramda');
 var Promise = require('bluebird');
 var mockCommits = require('./mock-chalk-ids.json');

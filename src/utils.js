@@ -1,5 +1,5 @@
 var log = require('debug')('changed');
-require('lazy-ass');
+var la = require('lazy-ass');
 var check = require('check-more-types');
 var R = require('ramda');
 var parseGh = require('@bahmutov/parse-github-repo-url');
