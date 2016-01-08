@@ -86,6 +86,11 @@ function changedLogReport(options, reportOptions) {
     });
 }
 
+function startFromLatestPublishedTag(options) {
+  return options.from === 'latest' &&
+    !options.to;
+}
+
 function onlyProvidedFromVersion(options) {
   return check.unemptyString(options.from) &&
     !options.to;
@@ -151,7 +156,9 @@ function changedLog(options, reportOptions) {
   options = options || {};
   reportOptions = reportOptions || {};
 
-  if (onlyProvidedFromVersion(options)) {
+  if (startFromLatestPublishedTag(options)) {
+    log('Finding changes after last published NPM version for "%s"', options.name);
+  } else if (onlyProvidedFromVersion(options)) {
     // assume we specified target "to" version
     fillMissingFromOptions(options);
   }
@@ -180,10 +187,16 @@ function changedLog(options, reportOptions) {
 module.exports = changedLog;
 
 if (!module.parent) {
-  // existing package
+  // existing package with definite range
   changedLog({
     name: 'chalk',
     from: '0.3.0',
     to: '0.5.1'
+  }).done();
+  // existing package starting with
+  // the latest published NPM tag
+  changedLog({
+    name: 'chalk',
+    from: 'latest'
   }).done();
 }
