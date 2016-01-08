@@ -42,18 +42,18 @@
   },
   "homepage": "https://github.com/bahmutov/changed-log",
   "dependencies": {
-    "bluebird": "3.0.5",
+    "@bahmutov/parse-github-repo-url": "0.0.0",
+    "bluebird": "3.1.1",
     "chalk": "1.1.1",
-    "check-more-types": "2.2.0",
+    "check-more-types": "2.10.0",
     "debug": "2.2.0",
     "github": "0.2.4",
-    "inquirer": "0.11.0",
+    "inquirer": "0.11.1",
     "lazy-ass": "0.6.0",
     "lodash": "3.10.1",
-    "package-json": "2.2.1",
-    "@bahmutov/parse-github-repo-url": "0.0.0",
+    "package-json": "2.3.0",
     "ramda": "0.15.1",
-    "update-notifier": "0.5.0"
+    "update-notifier": "0.6.0"
   },
   "devDependencies": {
     "@semantic-release/condition-travis": "^4.1.4",
@@ -61,8 +61,8 @@
     "eslint": "0.24.0",
     "git-issues": "1.2.0",
     "mocha": "2.3.4",
-    "pre-git": "1.4.0",
-    "really-need": "1.7.2",
+    "pre-git": "3.1.2",
+    "really-need": "1.9.0",
     "semantic-release": "6.0.3"
   },
   "files": [
@@ -71,20 +71,26 @@
     "!src/*-spec.js"
   ],
   "release": {
-    "verifyConditions": [{
-      "path": "@semantic-release/condition-travis"
-    }, {
-      "path": "condition-node-version",
-      "node": "4.2.2",
-      "verbose": true
-    }]
+    "verifyConditions": [
+      {
+        "path": "@semantic-release/condition-travis"
+      },
+      {
+        "path": "condition-node-version",
+        "node": "4.2.2",
+        "verbose": true
+      }
+    ]
   },
   "config": {
     "pre-git": {
-      "commit-msg": "validate-commit-msg",
+      "commit-msg": "simple",
       "pre-commit": "npm test",
-      "pre-push": ["npm run size"],
-      "post-merge": []
+      "pre-push": [
+        "npm run size"
+      ],
+      "post-merge": [],
+      "post-commit": []
     }
   }
 }
