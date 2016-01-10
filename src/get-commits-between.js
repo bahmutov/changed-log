@@ -86,3 +86,21 @@ function getCommitsBetween(options) {
 }
 
 module.exports = getCommitsBetween;
+
+if (!module.parent) {
+  (function examples() {
+    /* eslint no-unused-vars:0 */
+
+    function commitsAfter() {
+      var options = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: '8b554e254e89c85c1fd04dcc444beeb15824e1a5'
+      };
+      getCommitsBetween(options)
+        .then(console.log.bind(console))
+        .done();
+    }
+    commitsAfter();
+  }());
+}
