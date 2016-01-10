@@ -1,3 +1,5 @@
+var la = require('lazy-ass');
+var check = require('check-more-types');
 var utils = require('./utils');
 var R = require('ramda');
 var _ = require('lodash');

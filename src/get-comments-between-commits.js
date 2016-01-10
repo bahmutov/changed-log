@@ -16,7 +16,26 @@ var areValidOptions = check.schema.bind(null, {
   to: check.commitId
 });
 
+var afterCommitOptions = check.schema({
+  user: check.unemptyString,
+  repo: check.unemptyString,
+  from: check.commitId,
+  to: check.not.defined
+});
+
+function getCommentsAfter(options) {
+  debug('finding comments after %s/%s %s', options.user, options.repo, options.from);
+
+  var report = new Report(options);
+  return getCommitsBetween(options)
+    .then(R.always(report));
+}
+
 function getCommentsBetweenCommits(options) {
+  if (afterCommitOptions(options)) {
+    return getCommentsAfter(options);
+  }
+
   la(areValidOptions(options), 'bad options', options);
   var report = new Report(options);
 
@@ -63,6 +82,21 @@ if (!module.parent) {
         });
     }
 
-    largeNumberOfCommitsExample();
+    function commitsAfterThis() {
+      var options = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: '8b554e254e89c85c1fd04dcc444beeb15824e1a5'
+      };
+      getCommentsBetweenCommits(options)
+        .tap(function (report) {
+          la(check.object(report), 'did not get a report', report);
+          report.print();
+        });
+    }
+
+    // smallNumberOfCommitsExample();
+    // largeNumberOfCommitsExample();
+    commitsAfterThis();
   }());
 }
