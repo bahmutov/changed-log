@@ -2,6 +2,7 @@ var la = require('lazy-ass');
 var check = require('check-more-types');
 var utils = require('./utils');
 var _ = require('lodash');
+var R = require('ramda');
 var Promise = require('bluebird');
 
 /* eslint no-console:0 */
@@ -44,7 +45,25 @@ function getTags(options) {
     .then(trimVersions);
 }
 
+var isLatest = check.schema({
+  from: check.equal('latest')
+});
+
+function getLatestTag(question) {
+  la(isLatest(question), 'wrong latest schema', question);
+  return getTags(_.pick(question, 'user', 'repo'))
+    .then(function (allTags) {
+      la(check.array(allTags), 'missing tags', allTags);
+      // assuming the tags are sorted, with latest the first
+      return allTags[0];
+    });
+}
+
 function getFromToTags(question) {
+  if (isLatest(question)) {
+    return getLatestTag(question);
+  }
+
   var tagSchema = {
     from: check.unemptyString,
     to: check.unemptyString
@@ -137,7 +156,31 @@ if (!module.parent) {
         .then(log);
     }
 
+    function fromLatestChalkExample() {
+      var question = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: 'latest'
+      };
+
+      log('Getting commit SHA for the given tags');
+      log('%s / %s from latest tag', question.user, question.repo);
+      getFromToTags(question)
+        .then(log);
+    }
+
+    function getLatestTagExample() {
+      var question = {
+        user: 'chalk',
+        repo: 'chalk',
+        from: 'latest'
+      };
+      getLatestTag(question).then(log).done();
+    }
+
     // chalkExample();
-    nextUpdateReverseTagOrderExample();
+    // nextUpdateReverseTagOrderExample();
+    fromLatestChalkExample();
+    // getLatestTagExample();
   }());
 }
