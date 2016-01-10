@@ -55,7 +55,9 @@ function getLatestTag(question) {
     .then(function (allTags) {
       la(check.array(allTags), 'missing tags', allTags);
       // assuming the tags are sorted, with latest the first
-      return allTags[0];
+      return {
+        latest: allTags[0]
+      };
     });
 }
 

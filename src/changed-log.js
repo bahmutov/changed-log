@@ -24,12 +24,13 @@ function findCommitIds(options, repoInfo) {
   la(check.object(repoInfo), 'missing repo info', repoInfo);
   debug('Finding commit ids');
   var tagsToCommits = require('./get-commits-from-tags');
-  return tagsToCommits({
+  var tagOptions = {
     user: repoInfo.user,
     repo: repoInfo.repo,
     from: options.from,
     to: options.to
-  })
+  };
+  return tagsToCommits(tagOptions)
     .tap(debug)
     .then(function mergeCommitInfo(tagsInfo) {
       return _.extend({}, repoInfo, options, tagsInfo);
@@ -42,23 +43,43 @@ function findCommentsBetweenTags(options) {
   la(check.object(options.toTag), 'missing toTag', options);
 
   var findCommits = require('./get-comments-between-commits');
-  return findCommits({
+  var findOptions = {
     user: options.user,
     repo: options.repo,
     from: options.fromTag.sha,
     to: options.toTag.sha
-  }).then(function (report) {
+  };
+
+  function setReport(report) {
     report.options.name = options.name;
     report.options.from = options.from;
     report.options.to = options.to;
     return report;
-  }, failedToFindComments);
+  }
+
+  return findCommits(findOptions)
+    .then(setReport, failedToFindComments);
+}
+
+var isLatest = check.schema({
+  from: check.equal('latest')
+});
+
+function changedAfterLatest(options/*, reportOptions*/) {
+  debug('Returning comments from commits after latest tag');
+  return packageRepo(options.name)
+    .then(_.partial(findCommitIds, options))
+    .tap(debug);
 }
 
 function changedLogReport(options, reportOptions) {
   // TODO validate options
   options = options || {};
   reportOptions = reportOptions || {};
+
+  if (isLatest(options)) {
+    return changedAfterLatest(options, reportOptions);
+  }
 
   var allTags;
 
