@@ -1,8 +1,10 @@
+'use strict';
+
 var log = require('debug')('changed');
 var la = require('lazy-ass');
 var check = require('check-more-types');
 var R = require('ramda');
-var parseGh = require('@bahmutov/parse-github-repo-url');
+var parseGh = require('parse-github-repo-url');
 
 var repoSchema = {
   user: check.unemptyString,
