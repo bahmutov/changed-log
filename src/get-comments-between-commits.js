@@ -1,102 +1,101 @@
-var la = require('lazy-ass');
-var check = require('check-more-types');
-var utils = require('./utils');
-var R = require('ramda');
-var _ = require('lodash');
-var debug = require('debug')('between');
+var la = require('lazy-ass')
+var check = require('check-more-types')
+var utils = require('./utils')
+var R = require('ramda')
+var _ = require('lodash')
+var debug = require('debug')('between')
 
-var getCommitsBetween = require('./get-commits-between');
-la(check.fn(getCommitsBetween), 'missing function get commits between', getCommitsBetween);
+var getCommitsBetween = require('./get-commits-between')
+la(check.fn(getCommitsBetween), 'missing function get commits between', getCommitsBetween)
 
-var Report = require('./report');
+var Report = require('./report')
 var areValidOptions = check.schema.bind(null, {
   user: check.unemptyString,
   repo: check.unemptyString,
   from: check.commitId,
   to: check.commitId
-});
+})
 
 var afterCommitOptions = check.schema({
   user: check.unemptyString,
   repo: check.unemptyString,
   from: check.commitId,
   to: check.not.defined
-});
+})
 
-function getCommentsAfter(options) {
-  debug('finding comments after %s/%s %s', options.user, options.repo, options.from);
+function getCommentsAfter (options) {
+  debug('finding comments after %s/%s %s', options.user, options.repo, options.from)
 
-  var report = new Report(options);
+  var report = new Report(options)
   return getCommitsBetween(options)
-    .then(R.always(report));
+    .then(R.always(report))
 }
 
-function getCommentsBetweenCommits(options) {
+function getCommentsBetweenCommits (options) {
   if (afterCommitOptions(options)) {
-    return getCommentsAfter(options);
+    return getCommentsAfter(options)
   }
 
-  la(areValidOptions(options), 'bad options', options);
-  var report = new Report(options);
+  la(areValidOptions(options), 'bad options', options)
+  var report = new Report(options)
 
   return getCommitsBetween(options)
     .tap(function (commits) {
-      report.ids = _.pluck(commits, 'sha');
-      report.comments = _.pluck(commits, 'message');
+      report.ids = _.pluck(commits, 'sha')
+      report.comments = _.pluck(commits, 'message')
     })
-    .then(R.always(report));
+    .then(R.always(report))
 }
 
 // resolves with Report object
-module.exports = getCommentsBetweenCommits;
+module.exports = getCommentsBetweenCommits
 
 if (!module.parent) {
-
-  (function examples() {
+  (function examples () {
     /* eslint no-unused-vars:0 */
-    function smallNumberOfCommitsExample() {
+    function smallNumberOfCommitsExample () {
       var options = {
         user: 'bahmutov',
         repo: 'next-update',
         from: '627250039b89fba678f57f428ee9151c370d4dad',
         to: '3d2b1fa3523c0be35ecfb30d4c81407fd4ce30a6'
-      };
+      }
       getCommentsBetweenCommits(options)
         .tap(function (report) {
-          la(check.object(report), 'did not get a report', report);
-          report.print();
-        });
+          la(check.object(report), 'did not get a report', report)
+          report.print()
+        })
     }
 
-    function largeNumberOfCommitsExample() {
+    function largeNumberOfCommitsExample () {
       var options = {
         user: 'chalk',
         repo: 'chalk',
         from: 'b0a0e42bfe96f77e0ce273c87b910ccc9280bbeb', // older (0.3.0)
         to: '994758f01293f1fdcf63282e9917cb9f2cfbdaac' // latest (tag 0.5.1)
-      };
+      }
       getCommentsBetweenCommits(options)
         .tap(function (report) {
-          la(check.object(report), 'did not get a report', report);
-          report.print();
-        });
+          la(check.object(report), 'did not get a report', report)
+          report.print()
+        })
     }
 
-    function commitsAfterThis() {
+    function commitsAfterThis () {
       var options = {
         user: 'chalk',
         repo: 'chalk',
         from: '8b554e254e89c85c1fd04dcc444beeb15824e1a5'
-      };
+      }
       getCommentsBetweenCommits(options)
         .tap(function (report) {
-          la(check.object(report), 'did not get a report', report);
-          report.print();
-        });
+          la(check.object(report), 'did not get a report', report)
+          report.print()
+        })
     }
 
     // smallNumberOfCommitsExample();
     // largeNumberOfCommitsExample();
-    commitsAfterThis();
-  }());
+    commitsAfterThis()
+  }())
 }

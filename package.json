@@ -14,7 +14,7 @@
     "example": "node bin/changed-log.js next-update 0.8.0 0.8.3",
     "chalk": "DEBUG=changed node bin/changed-log.js chalk 0.3.0 0.5.1",
     "chalk-with-mock": "DEBUG=changed node mocks/mock-for-chalk.js bin/changed-log.js chalk 0.3.0 0.5.1",
-    "lint": "eslint bin/*.js src/*.js mocks/*.js",
+    "lint": "standard --verbose --fix bin/*.js src/*.js mocks/*.js",
     "commit": "git-issues && commit-wizard",
     "issues": "git-issues",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
@@ -58,12 +58,12 @@
   "devDependencies": {
     "@semantic-release/condition-travis": "^4.1.4",
     "condition-node-version": "1.3.0",
-    "eslint": "0.24.0",
     "git-issues": "1.3.1",
     "mocha": "3.0.2",
     "pre-git": "3.12.0",
     "really-need": "1.9.2",
-    "semantic-release": "6.3.0"
+    "semantic-release": "6.3.0",
+    "standard": "8.6.0"
   },
   "files": [
     "bin",
