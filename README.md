@@ -53,6 +53,10 @@ To find all changes between a module and the latest release use the command
     $ changed-log <name> <from> latest
     $ changed-log pre-git 1.2.0 latest
 
+You can omit "latest" and just specify name and "from" version
+
+    $ changed-log <name> <from>
+
 If you only provide a single version from a folder that contains `package.json`
 it will read the 'from' version from the the `package.json`, assuming you have only
 provided the 'to' version

@@ -80,6 +80,12 @@ function getFromToTags (question) {
 
       var toTagIndex = question.to === 'latest' ? 0
         : _.findIndex(allTags, 'name', question.to)
+      if (toTagIndex === -1) {
+        const msg = 'Cannot find "to" tag with value "' + question.to + '"'
+        console.error(msg)
+        console.error('Available tags', allTags)
+        return Promise.reject(new Error(msg))
+      }
       la(toTagIndex !== -1, 'cannot to tag', question.to, 'all tags', allTags)
 
       debug('from tag %s index %d to tag %s index %d',

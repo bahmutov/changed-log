@@ -36,6 +36,11 @@ if (!isValidCliOptions(options)) {
   process.exit(-1)
 }
 
+if (!options.to) {
+  debug('"to" version is not set, assuming latest')
+  options.to = 'latest'
+}
+
 var changedLog = require('../src/changed-log')
 changedLog(options)
   .done()
