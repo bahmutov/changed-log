@@ -61,6 +61,8 @@ function getLatestTag (question) {
     })
 }
 
+const justTagNames = R.map(R.prop('name'))
+
 function getFromToTags (question) {
   if (isLatest(question)) {
     return getLatestTag(question)
@@ -76,15 +78,22 @@ function getFromToTags (question) {
     .then(function (allTags) {
       la(check.array(allTags), 'missing tags', allTags)
       var fromTagIndex = _.findIndex(allTags, 'name', question.from)
+      if (fromTagIndex === -1) {
+        const msg = 'Cannot find "from" tag ' + question.from
+        const fullMsg = msg + '\navailable tags ' +
+          justTagNames(allTags).join(', ')
+        return Promise.reject(new Error(fullMsg))
+      }
+
       la(fromTagIndex !== -1, 'cannot find tag', question.from, 'all tags', allTags)
 
       var toTagIndex = question.to === 'latest' ? 0
         : _.findIndex(allTags, 'name', question.to)
       if (toTagIndex === -1) {
         const msg = 'Cannot find "to" tag with value "' + question.to + '"'
-        console.error(msg)
-        console.error('Available tags', allTags)
-        return Promise.reject(new Error(msg))
+        const fullMsg = msg + '\navailable tags ' +
+          justTagNames(allTags).join(', ')
+        return Promise.reject(new Error(fullMsg))
       }
       la(toTagIndex !== -1, 'cannot to tag', question.to, 'all tags', allTags)
 

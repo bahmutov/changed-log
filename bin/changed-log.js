@@ -43,4 +43,8 @@ if (!options.to) {
 
 var changedLog = require('../src/changed-log')
 changedLog(options)
+  .catch(function (err) {
+    debug(err.toString())
+    debug(err.stack)
+  })
   .done()
