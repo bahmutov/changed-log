@@ -41,7 +41,7 @@ function packageRepo (name) {
   var json
 
   return Promise.resolve(packageField(name))
-    .then(R.tap(debug), R.partial(failedAtSomething, 'package field'))
+    .catch(R.partial(failedAtSomething, 'package field'))
     .tap(function (info) {
       json = info
     })

@@ -22,10 +22,9 @@ function isGithubUrl (url) {
 }
 
 function verifyGithub (message, repo) {
-  la(check.object(repo) &&
-    repo.type === 'git' &&
-    isGithubUrl(repo.url),
-    'not a github repo', repo, message)
+  la(check.object(repo), 'expected repo to be an object', repo)
+  la(repo.type === 'git', 'expected git repo', repo)
+  la(isGithubUrl(repo.url), 'not a github repo', repo)
 }
 
 var GitHubApi = require('github')
